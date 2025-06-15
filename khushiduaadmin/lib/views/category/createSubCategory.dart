@@ -1,0 +1,1559 @@
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:khushiduaadmin/models/categoryModel.dart';
+import 'package:khushiduaadmin/models/subCategoryModel.dart';
+import 'dart:html' as html;
+import '../../constants/colors.dart';
+import '../../controllers/categoryController.dart';
+import '../../widgets/customLoading.dart';
+import '../../widgets/customSnackbar.dart';
+import '../../widgets/topBar.dart';
+
+class CreateSubCategory extends StatefulWidget {
+  final CategoryModel categoryModel;
+  final order;
+
+  const CreateSubCategory(this.categoryModel,this.order, {super.key});
+
+  @override
+  State<CreateSubCategory> createState() => _CreateSubCategoryState();
+}
+
+class _CreateSubCategoryState extends State<CreateSubCategory> {
+  var formKey = GlobalKey<FormState>();
+  TextEditingController arabicTextEditingController = TextEditingController();
+  TextEditingController bengaliTextEditingController = TextEditingController();
+  TextEditingController burmeseTextEditingController = TextEditingController();
+  TextEditingController englishTextEditingController = TextEditingController();
+  TextEditingController frenchTextEditingController = TextEditingController();
+  TextEditingController germanTextEditingController = TextEditingController();
+  TextEditingController gujratiTextEditingController = TextEditingController();
+  TextEditingController hindiTextEditingController = TextEditingController();
+  TextEditingController indonesianTextEditingController = TextEditingController();
+  TextEditingController japaneseTextEditingController = TextEditingController();
+  TextEditingController koreanTextEditingController = TextEditingController();
+  TextEditingController malayTextEditingController = TextEditingController();
+  TextEditingController mandrainTextEditingController = TextEditingController();
+  TextEditingController marathiTextEditingController = TextEditingController();
+  TextEditingController pashtoTextEditingController = TextEditingController();
+  TextEditingController persianFarsiTextEditingController = TextEditingController();
+  TextEditingController portugeseTextEditingController = TextEditingController();
+  TextEditingController punjabiTextEditingController = TextEditingController();
+  TextEditingController russianTextEditingController = TextEditingController();
+  TextEditingController sindhiTextEditingController = TextEditingController();
+  TextEditingController spanishTextEditingController = TextEditingController();
+  TextEditingController tamilTextEditingController = TextEditingController();
+  TextEditingController telguTextEditingController = TextEditingController();
+  TextEditingController turkishTextEditingController = TextEditingController();
+  TextEditingController urduTextEditingController = TextEditingController();
+  TextEditingController vietnameseTextEditingController = TextEditingController();
+  bool isLittleKids = true;
+  bool isOlderKids = true;
+  bool isGrownUps = true;
+  html.File? littleKidsmp3File;
+  html.File? olderKidsmp3File;
+  html.File? grownUpsmp3File;
+
+  html.File? catImage;
+  String? catImageUrl;
+
+  void pickMp3File(String type) {
+    final html.FileUploadInputElement input = html.FileUploadInputElement();
+    input.accept = 'audio/mp3';
+    input.click();
+
+    input.onChange.listen((event) {
+      if (input.files!.isNotEmpty) {
+        if(type=="littleKids"){
+          littleKidsmp3File = input.files!.first;
+          setState(() {
+            littleKidsmp3File;
+          });
+        }else if(type=="olderKids"){
+          olderKidsmp3File = input.files!.first;
+          setState(() {
+            olderKidsmp3File;
+          });
+        }else{
+          grownUpsmp3File = input.files!.first;
+          setState(() {
+            grownUpsmp3File;
+          });
+        }
+
+      }
+    });
+  }
+
+  void pickImage(String type) {
+    final html.FileUploadInputElement input = html.FileUploadInputElement();
+    input.accept = 'image/*';
+    input.click();
+
+    input.onChange.listen((event) {
+      if (input.files!.isNotEmpty) {
+        final file = input.files!.first;
+        final objectUrl = html.Url.createObjectUrl(file);
+
+        setState(() {
+            catImage = file;
+            catImageUrl = objectUrl;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: rBlack,
+      body: GetBuilder<CategoryController>(
+        builder: (categoryController) {
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TopBar(title: "Sub Category"),
+                    Text(
+                      "Add New Sub Category",
+                      style: TextStyle(color: rWhite, fontSize: 20),
+                    ).marginOnly(top: 20),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.back();
+                            Get.back();
+                          Get.back();} ,
+                          child: Text(
+                            "category / ",
+                            style: TextStyle(color: rGreen),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.back();
+                            Get.back();
+                          } ,
+                          child: Text(
+                            "edit category / ",
+                            style: TextStyle(color: rGreen),
+                          ),
+                        ),
+                        Text(
+                          "add new sub category",
+                          style: TextStyle(color: rWhite),
+                        ),
+                      ],
+                    ),
+                    Form(
+                      key: formKey,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: rBg,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                //left side
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: MediaQuery.of(context).size.height * 0.17,
+                                        child: Row(
+                                          children: [
+
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width * 0.05,
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  "Image",
+                                                  style: TextStyle(color: rHint),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    pickImage("Image");
+                                                  },
+                                                  child: catImage != null
+                                                      ? Container(
+                                                          width: 60,
+                                                          height: 60,
+                                                          child: ClipRRect(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            child: Image.network(catImageUrl!, fit: BoxFit.fill),
+                                                          ),
+                                                        ).marginOnly(top: 20)
+                                                      : DottedBorder(
+                                                          color: rHint,
+                                                          radius: Radius.circular(8),
+                                                          borderType: BorderType.Rect,
+                                                          dashPattern: [8, 4],
+                                                          child: Container(
+                                                            width: 60,
+                                                            height: 60,
+                                                            alignment: Alignment.center,
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              children: [
+                                                                SvgPicture.asset("assets/svgs/upload.svg"),
+                                                              ],
+                                                            ),
+                                                          )).marginOnly(top: 20),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (English)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: englishTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "English name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in English',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Arabic)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: arabicTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Arabic name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Arabic',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Bengali)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: bengaliTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Bengali name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Bengali',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Burmese)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: burmeseTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Burmese name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Burmese',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (French)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: frenchTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "French name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in French',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (German)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: germanTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "German name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in German',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Gujrati)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: gujratiTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Gujrati name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Gujrati',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Hindi)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: hindiTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Hindi name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Hindi',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Indonesian)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: indonesianTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Indonesian name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Indonesian',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Japanese)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: japaneseTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Japanese name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Japanese',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Korean)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: koreanTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Korean name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Korean',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Malay)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: malayTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Malay name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Malay',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sub Category Name (Mandrain)",
+                                        style: TextStyle(color: rHint),
+                                      ).marginOnly(top: 20),
+                                      TextFormField(
+                                        cursorColor: rGreen,
+                                        controller: mandrainTextEditingController,
+                                        validator: (diameter) {
+                                          if (diameter == null || diameter.isEmpty) {
+                                            return "Mandrain name is required";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.transparent,
+                                          hintText: 'Name in Mandrain',
+                                          hintStyle: TextStyle(
+                                            color: rHint.withOpacity(0.5),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: rHint,
+                                            ),
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Checkbox(
+                                                value: isLittleKids,
+                                                activeColor: rGreen,
+                                                checkColor: Colors.white,
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    isLittleKids = val!;
+                                                  });
+                                                },
+                                              ),
+                                              Text(
+                                                "Little Kids",
+                                                style: TextStyle(color: rWhite),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Checkbox(
+                                                value: isOlderKids,
+                                                activeColor: rGreen,
+                                                checkColor: Colors.white,
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    isOlderKids = val!;
+                                                  });
+                                                },
+                                              ),
+                                              Text(
+                                                "Older Kids",
+                                                style: TextStyle(color: rWhite),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Checkbox(
+                                                value: isGrownUps,
+                                                activeColor: rGreen,
+                                                checkColor: Colors.white,
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    isGrownUps = val!;
+                                                  });
+                                                },
+                                              ),
+                                              Text(
+                                                "Grown Ups",
+                                                style: TextStyle(color: rWhite),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ).marginOnly(top: 20)
+                                    ],
+                                  ).marginSymmetric(horizontal: 12),
+                                ),
+
+                                //right side
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+
+                                    Text(
+                                      "Sub Category Name (Marathi)",
+                                      style: TextStyle(color: rHint),
+                                    ),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: marathiTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Marathi name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Marathi',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Pashto)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: pashtoTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Pashto name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Pashto',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Persian Farsi)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: persianFarsiTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Persian Farsi name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Persian Farsi',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Portugese)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: portugeseTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Portugese name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Portugese',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Punjabi)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: punjabiTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Punjabi name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Punjabi',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Russian)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: russianTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Russian name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Russian',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Sindhi)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: sindhiTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Sindhi name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Sindhi',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Spanish)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: spanishTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Spanish name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Spanish',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Tamil)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: tamilTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Tamil name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Tamil',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Telgu)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: telguTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Telgu name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Telgu',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Turkish)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: turkishTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Turkish name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Turkish',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Urdu)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: urduTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Urdu name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Urdu',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sub Category Name (Vietnamise)",
+                                      style: TextStyle(color: rHint),
+                                    ).marginOnly(top: 20),
+                                    TextFormField(
+                                      cursorColor: rGreen,
+                                      controller: vietnameseTextEditingController,
+                                      validator: (diameter) {
+                                        if (diameter == null || diameter.isEmpty) {
+                                          return "Vietnamise name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        hintText: 'Name in Vietnamise',
+                                        hintStyle: TextStyle(
+                                          color: rHint.withOpacity(0.5),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: rHint,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ).marginSymmetric(horizontal: 12)),
+                              ],
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: InkWell(
+                                onTap: () async {
+                                  if (formKey.currentState!.validate()) {
+
+                                    if(catImage==null){
+                                      CustomSnackbar.show("Error", "Image is required");
+                                      return;
+                                    }else{
+                                      SubCategoryModel subCategoryModel = SubCategoryModel(
+                                          id: "",
+                                          image: "",
+                                          createdAt: DateTime.now(),
+                                          arabic: arabicTextEditingController.text,
+                                          bengali: bengaliTextEditingController.text,
+                                          burmese: burmeseTextEditingController.text,
+                                          english: englishTextEditingController.text,
+                                          french: frenchTextEditingController.text,
+                                          german: germanTextEditingController.text,
+                                          gujrati: gujratiTextEditingController.text,
+                                          hindi: hindiTextEditingController.text,
+                                          indonesian: indonesianTextEditingController.text,
+                                          isEnabled: true,
+                                          japanese: japaneseTextEditingController.text,
+                                          korean: koreanTextEditingController.text,
+                                          malay: malayTextEditingController.text,
+                                          mandrain: mandrainTextEditingController.text,
+                                          marathi: marathiTextEditingController.text,
+                                          pashto: pashtoTextEditingController.text,
+                                          persianFarsi: persianFarsiTextEditingController.text,
+                                          portugese: portugeseTextEditingController.text,
+                                          punjabi: punjabiTextEditingController.text,
+                                          russian: russianTextEditingController.text,
+                                          sindhi: sindhiTextEditingController.text,
+                                          spanish: spanishTextEditingController.text,
+                                          tamil: tamilTextEditingController.text,
+                                          telgu: telguTextEditingController.text,
+                                          turkish: turkishTextEditingController.text,
+                                          updatedAt: DateTime.now(),
+                                          urdu: urduTextEditingController.text,
+                                          vietnamese: vietnameseTextEditingController.text,
+                                          order: widget.order + 1,
+                                          grownUps: isGrownUps,
+                                          littleKids: isLittleKids,
+                                          olderKids: isOlderKids,
+                                          categoryId: widget.categoryModel.id);
+
+                                      categoryController.createSubCategory(subCategoryModel,catImage!);
+
+                                    }
+
+
+                                  } else {
+                                    return;
+                                  }
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: rGreen,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    "Add",
+                                    style: TextStyle(color: rWhite),
+                                  ).marginSymmetric(vertical: 12),
+                                ).marginOnly(top: 12),
+                              ),
+                            )
+                          ],
+                        ).marginSymmetric(horizontal: 15, vertical: 15),
+                      ).marginOnly(top: 12),
+                    ),
+                  ],
+                ).marginSymmetric(horizontal: 12, vertical: 12),
+              ),
+              Visibility(
+                  visible: categoryController.isLoading,
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      color: rWhite.withOpacity(0.2),
+                      child: CustomLoading()))
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

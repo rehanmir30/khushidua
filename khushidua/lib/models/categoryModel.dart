@@ -1,0 +1,215 @@
+class CategoryModel {
+  String id = '';
+  String logo = '';
+  String arabic = '';
+  String bengali = '';
+  String burmese = '';
+  String english = '';
+  String french = '';
+  String german = '';
+  String gujrati = '';
+  String hindi = '';
+  String indonesian = '';
+  String japanese = '';
+  String korean = '';
+  String malay = '';
+  String mandrain = '';
+  String marathi = '';
+  String pashto = '';
+  String persianFarsi = '';
+  String portugese = '';
+  String punjabi = '';
+  String russian = '';
+  String sindhi = '';
+  String spanish = '';
+  String tamil = '';
+  String telgu = '';
+  String turkish = '';
+  String urdu = '';
+  String vietnamese = '';
+  DateTime createdAt = DateTime.now();
+  DateTime updatedAt = DateTime.now();
+  bool isEnabled = true;
+  int order=0;
+  bool littleKids=true;
+  bool olderKids=true;
+  bool grownUps=true;
+
+  CategoryModel({
+    required this.id,
+    required this.createdAt,
+    required this.arabic,
+    required this.bengali,
+    required this.burmese,
+    required this.english,
+    required this.french,
+    required this.german,
+    required this.gujrati,
+    required this.hindi,
+    required this.indonesian,
+    required this.isEnabled,
+    required this.japanese,
+    required this.korean,
+    required this.logo,
+    required this.malay,
+    required this.mandrain,
+    required this.marathi,
+    required this.pashto,
+    required this.persianFarsi,
+    required this.portugese,
+    required this.punjabi,
+    required this.russian,
+    required this.sindhi,
+    required this.spanish,
+    required this.tamil,
+    required this.telgu,
+    required this.turkish,
+    required this.updatedAt,
+    required this.urdu,
+    required this.vietnamese,
+    required this.order,
+    required this.grownUps,
+    required this.littleKids,
+    required this.olderKids
+  });
+
+  String getName(String languageCode) {
+    switch (languageCode) {
+      case 'Arabic':
+        return arabic;
+      case 'Bengali':
+        return bengali;
+      case 'Burmese':
+        return burmese;
+      case 'English':
+        return english;
+      case 'French':
+        return french;
+      case 'German':
+        return german;
+      case 'Gujarati':
+        return gujrati;
+      case 'Hindi':
+        return hindi;
+      case 'Indonesian':
+        return indonesian;
+      case 'Japanese':
+        return japanese;
+      case 'Korean':
+        return korean;
+      case 'Malay':
+        return malay;
+      case 'Mandarin':
+        return mandrain;
+      case 'Marathi':
+        return marathi;
+      case 'Pashto':
+        return pashto;
+      case 'Persian':
+        return persianFarsi;
+      case 'Portuguese':
+        return portugese;
+      case 'Punjabi':
+        return punjabi;
+      case 'Russian':
+        return russian;
+      case 'Sindhi':
+        return sindhi;
+      case 'Spanish':
+        return spanish;
+      case 'Tamil':
+        return tamil;
+      case 'Telugu':
+        return telgu;
+      case 'Turkish':
+        return turkish;
+      case 'Urdu':
+        return urdu;
+      case 'Vietnamese':
+        return vietnamese;
+      default:
+        return english; // fallback
+    }
+  }
+
+
+  factory CategoryModel.fromMap(Map<String, dynamic> map) {
+    return CategoryModel(
+        id: map["id"],
+        createdAt: map["createdAt"].toDate(),
+        arabic: map["arabic"],
+        bengali: map["bengali"],
+        burmese: map["burmese"],
+        english: map["english"],
+        french: map["french"],
+        german: map["german"],
+        gujrati: map["gujrati"],
+        hindi: map["hindi"],
+        indonesian: map["indonesian"],
+        isEnabled: map["isEnabled"],
+        japanese: map["japanese"],
+        korean: map["korean"],
+        logo: map["logo"],
+        malay: map["malay"],
+        mandrain: map["mandrain"],
+        marathi: map["marathi"],
+        pashto: map["pashto"],
+        persianFarsi: map["persianFarsi"],
+        portugese: map["portugese"],
+        punjabi: map["punjabi"],
+        russian: map["russian"],
+        sindhi: map["sindhi"],
+        spanish: map["spanish"],
+        tamil: map["tamil"],
+        telgu: map["telgu"],
+        turkish: map["turkish"],
+        updatedAt: map["updatedAt"].toDate(),
+        urdu: map["urdu"],
+        vietnamese: map["vietnamese"],
+        order: map["order"],
+      littleKids: map["littleKids"],
+      olderKids: map["olderKids"],
+      grownUps:map["grownUps"]
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "createdAt": createdAt,
+      "arabic": arabic,
+      "bengali": bengali,
+      "burmese": burmese,
+      "english": english,
+      "french": french,
+      "german": german,
+      "gujrati": gujrati,
+      "hindi": hindi,
+      "indonesian": indonesian,
+      "isEnabled": isEnabled,
+      "japanese": japanese,
+      "korean": korean,
+      "logo": logo,
+      "malay": malay,
+      "mandrain": mandrain,
+      "marathi": marathi,
+      "pashto": pashto,
+      "persianFarsi": persianFarsi,
+      "portugese": portugese,
+      "punjabi": punjabi,
+      "russian": russian,
+      "sindhi": sindhi,
+      "spanish": spanish,
+      "tamil": tamil,
+      "telgu": telgu,
+      "turkish": turkish,
+      "updatedAt": updatedAt,
+      "urdu": urdu,
+      "vietnamese": vietnamese,
+      "order":order,
+      "grownUps":grownUps,
+      "olderKids":olderKids,
+      "littleKids":littleKids
+    };
+  }
+}
