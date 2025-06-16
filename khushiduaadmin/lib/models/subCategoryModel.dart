@@ -4,7 +4,6 @@ class SubCategoryModel{
   String id = '';
   String arabic = '';
   String bengali = '';
-  String burmese = '';
   String english = '';
   String french = '';
   String german = '';
@@ -12,12 +11,9 @@ class SubCategoryModel{
   String hindi = '';
   String indonesian = '';
   String japanese = '';
-  String korean = '';
   String malay = '';
   String mandrain = '';
   String marathi = '';
-  String pashto = '';
-  String persianFarsi = '';
   String portugese = '';
   String punjabi = '';
   String russian = '';
@@ -27,7 +23,6 @@ class SubCategoryModel{
   String telgu = '';
   String turkish = '';
   String urdu = '';
-  String vietnamese = '';
   DateTime createdAt = DateTime.now();
   DateTime updatedAt = DateTime.now();
   bool isEnabled = true;
@@ -44,7 +39,6 @@ class SubCategoryModel{
     required this.createdAt,
     required this.arabic,
     required this.bengali,
-    required this.burmese,
     required this.english,
     required this.french,
     required this.german,
@@ -53,12 +47,9 @@ class SubCategoryModel{
     required this.indonesian,
     required this.isEnabled,
     required this.japanese,
-    required this.korean,
     required this.malay,
     required this.mandrain,
     required this.marathi,
-    required this.pashto,
-    required this.persianFarsi,
     required this.portugese,
     required this.punjabi,
     required this.russian,
@@ -69,7 +60,6 @@ class SubCategoryModel{
     required this.turkish,
     required this.updatedAt,
     required this.urdu,
-    required this.vietnamese,
     required this.order,
     required this.categoryId,
     required this.grownUps,
@@ -84,7 +74,6 @@ class SubCategoryModel{
       updatedAt: map["updatedAt"] != null ? map["updatedAt"].toDate() : DateTime.now(),
       arabic: map["arabic"] ?? '',
       bengali: map["bengali"] ?? '',
-      burmese: map["burmese"] ?? '',
       english: map["english"] ?? '',
       french: map["french"] ?? '',
       german: map["german"] ?? '',
@@ -93,12 +82,9 @@ class SubCategoryModel{
       indonesian: map["indonesian"] ?? '',
       isEnabled: map["isEnabled"] ?? true,
       japanese: map["japanese"] ?? '',
-      korean: map["korean"] ?? '',
       malay: map["malay"] ?? '',
       mandrain: map["mandrain"] ?? '',
       marathi: map["marathi"] ?? '',
-      pashto: map["pashto"] ?? '',
-      persianFarsi: map["persianFarsi"] ?? '',
       portugese: map["portugese"] ?? '',
       punjabi: map["punjabi"] ?? '',
       russian: map["russian"] ?? '',
@@ -108,7 +94,6 @@ class SubCategoryModel{
       telgu: map["telgu"] ?? '',
       turkish: map["turkish"] ?? '',
       urdu: map["urdu"] ?? '',
-      vietnamese: map["vietnamese"] ?? '',
       order: map["order"] ?? 0,
       littleKids: map["littleKids"] ?? true,
       olderKids: map["olderKids"] ?? true,
@@ -125,7 +110,6 @@ class SubCategoryModel{
       "createdAt": createdAt,
       "arabic": arabic,
       "bengali": bengali,
-      "burmese": burmese,
       "english": english,
       "french": french,
       "german": german,
@@ -134,12 +118,9 @@ class SubCategoryModel{
       "indonesian": indonesian,
       "isEnabled": isEnabled,
       "japanese": japanese,
-      "korean": korean,
       "malay": malay,
       "mandrain": mandrain,
       "marathi": marathi,
-      "pashto": pashto,
-      "persianFarsi": persianFarsi,
       "portugese": portugese,
       "punjabi": punjabi,
       "russian": russian,
@@ -150,7 +131,6 @@ class SubCategoryModel{
       "turkish": turkish,
       "updatedAt": updatedAt,
       "urdu": urdu,
-      "vietnamese": vietnamese,
       "order": order,
       "grownUps": grownUps,
       "olderKids": olderKids,

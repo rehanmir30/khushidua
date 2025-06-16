@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:khushidua/constants/firebaseRef.dart';
 import 'package:khushidua/controllers/userController.dart';
@@ -8,6 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   UserController _userController = Get.find<UserController>();
+
+
+  Future<String> getFCMToken() async {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    String? token = await _firebaseMessaging.getToken();
+    print("TOKEN: ${token}");
+    return token!;
+  }
 
   register(String email, String password, String name) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,6 +37,7 @@ class AuthService {
           readDuas: [],
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
+          fcmToken: await getFCMToken(),
           isBlocked: false);
       userRef.doc(user.id).set(user.toMap());
       _userController.setLoggedIn(true);

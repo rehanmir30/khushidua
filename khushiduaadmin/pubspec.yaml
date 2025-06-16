@@ -40,12 +40,17 @@ dependencies:
   flutter_svg:
   animate_do:
   dotted_border:
+  intl:
+  http:
 
   #firebase
   firebase_core:
   cloud_firestore:
   firebase_auth:
   firebase_storage:
+  firebase_messaging:
+  googleapis:
+  googleapis_auth:
 
 dev_dependencies:
   flutter_test:
@@ -99,4 +104,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  # see https://flutter.dev/custom-fonts/#from-p

@@ -7,6 +7,7 @@ class UserModel {
   List<String> readDuas = [];
   bool isMember = false;
   bool isBlocked=false;
+  String fcmToken="";
   DateTime createdAt = DateTime.now();
   DateTime updatedAt = DateTime.now();
 
@@ -20,7 +21,8 @@ class UserModel {
         required this.isBlocked,
       required this.readDuas,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      required this.fcmToken});
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
@@ -33,7 +35,8 @@ class UserModel {
         isBlocked: map["isBlocked"],
         readDuas: List<String>.from(map["readDuas"] ?? []),
         createdAt: map["createdAt"].toDate(),
-        updatedAt: map["updatedAt"].toDate());
+        updatedAt: map["updatedAt"].toDate(),
+    fcmToken: map["fcmToken"]);
   }
 
   Map<String, dynamic> toMap() {
@@ -47,7 +50,8 @@ class UserModel {
       "isBlocked":isBlocked,
       "readDuas": readDuas,
       "createdAt": createdAt,
-      "updatedAt": updatedAt
+      "updatedAt": updatedAt,
+      "fcmToken":fcmToken
     };
   }
 }

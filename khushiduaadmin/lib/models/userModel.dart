@@ -4,6 +4,7 @@ class UserModel {
   String email = "";
   bool isLoggedIn = false;
   int points = 0;
+  String fcmToken="";
   List<String> readDuas = [];
   bool isMember = false;
   bool isBlocked=false;
@@ -15,6 +16,7 @@ class UserModel {
       required this.name,
       required this.email,
       required this.points,
+        required this.fcmToken,
       required this.isLoggedIn,
       required this.isMember,
         required this.isBlocked,
@@ -28,6 +30,7 @@ class UserModel {
         name: map["name"],
         email: map["email"],
         points: map["points"],
+        fcmToken: map["fcmToken"],
         isLoggedIn: map["isLoggedIn"],
         isMember: map["isMember"],
         isBlocked: map["isBlocked"],
@@ -47,7 +50,8 @@ class UserModel {
       "isBlocked":isBlocked,
       "readDuas": readDuas,
       "createdAt": createdAt,
-      "updatedAt": updatedAt
+      "updatedAt": updatedAt,
+      "fcmToken":fcmToken
     };
   }
 }

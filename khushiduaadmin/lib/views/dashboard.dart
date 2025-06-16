@@ -4,10 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:khushiduaadmin/controllers/categoryController.dart';
 import 'package:khushiduaadmin/controllers/duaController.dart';
+import 'package:khushiduaadmin/controllers/notificationController.dart';
 import 'package:khushiduaadmin/controllers/userController.dart';
 import 'package:khushiduaadmin/views/tabs/categories.dart';
 import 'package:khushiduaadmin/views/tabs/duas.dart';
 import 'package:khushiduaadmin/views/tabs/home.dart';
+import 'package:khushiduaadmin/views/tabs/notifications.dart';
 import 'package:khushiduaadmin/views/tabs/profile.dart';
 import 'package:khushiduaadmin/views/tabs/users.dart';
 import 'dart:html' as html;
@@ -39,6 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Get.find<CategoryController>().getAllSubCategories();
     Get.find<DuaController>().getAllDuas();
     Get.find<UserController>().getAllUsers();
+    Get.find<NotificationController>().getAllNotifications();
   }
   switchView(Widget screen,var tabId,var user){
     setState(() {
@@ -189,6 +192,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           setState(() {
                             _selectedTab = 2;
                             selectedView = UsersTab();
+                          });
+                        },
+                      ),
+
+                      ListTile(
+                        tileColor: _selectedTab == 9 ? rGreen : rBg,
+                        leading: Icon(Icons.notifications_active_outlined,color: _selectedTab == 9 ? rWhite : rHint ,) ,
+
+                        // SvgPicture.asset(
+                        //   "assets/svgs/users.svg",
+                        //   color: _selectedTab == 9 ? rWhite : rHint,
+                        // ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Notifications',
+                              style: TextStyle(
+                                color: _selectedTab == 9 ? rWhite : rHint,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: _selectedTab == 9 ? rWhite : rHint,
+                              size: 15,
+                            )
+                          ],
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _selectedTab = 9;
+                            selectedView = NotificationTab();
                           });
                         },
                       ),

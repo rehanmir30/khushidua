@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:khushiduaadmin/controllers/authController.dart';
 import 'package:khushiduaadmin/controllers/categoryController.dart';
 import 'package:khushiduaadmin/controllers/duaController.dart';
+import 'package:khushiduaadmin/controllers/notificationController.dart';
 import 'package:khushiduaadmin/controllers/userController.dart';
 
 class InitController extends Bindings {
@@ -11,5 +12,6 @@ class InitController extends Bindings {
     Get.put(CategoryController(), permanent: true);
     Get.put(DuaController(), permanent: true);
     Get.put(UserController(), permanent: true);
+    Get.put(NotificationController(), permanent: true);
   }
 }

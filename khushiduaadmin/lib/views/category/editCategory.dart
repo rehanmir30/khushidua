@@ -31,7 +31,6 @@ class _EditCategoryState extends State<EditCategory> {
   var formKey = GlobalKey<FormState>();
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController bengaliTextEditingController = TextEditingController();
-  TextEditingController burmeseTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
   TextEditingController frenchTextEditingController = TextEditingController();
   TextEditingController germanTextEditingController = TextEditingController();
@@ -39,12 +38,9 @@ class _EditCategoryState extends State<EditCategory> {
   TextEditingController hindiTextEditingController = TextEditingController();
   TextEditingController indonesianTextEditingController = TextEditingController();
   TextEditingController japaneseTextEditingController = TextEditingController();
-  TextEditingController koreanTextEditingController = TextEditingController();
   TextEditingController malayTextEditingController = TextEditingController();
   TextEditingController mandrainTextEditingController = TextEditingController();
   TextEditingController marathiTextEditingController = TextEditingController();
-  TextEditingController pashtoTextEditingController = TextEditingController();
-  TextEditingController persianFarsiTextEditingController = TextEditingController();
   TextEditingController portugeseTextEditingController = TextEditingController();
   TextEditingController punjabiTextEditingController = TextEditingController();
   TextEditingController russianTextEditingController = TextEditingController();
@@ -54,7 +50,6 @@ class _EditCategoryState extends State<EditCategory> {
   TextEditingController telguTextEditingController = TextEditingController();
   TextEditingController turkishTextEditingController = TextEditingController();
   TextEditingController urduTextEditingController = TextEditingController();
-  TextEditingController vietnameseTextEditingController = TextEditingController();
   bool isLittleKids = true;
   bool isOlderKids = true;
   bool isGrownUps = true;
@@ -64,7 +59,6 @@ class _EditCategoryState extends State<EditCategory> {
     super.initState();
     arabicTextEditingController.text = widget.model.arabic;
     bengaliTextEditingController.text = widget.model.bengali;
-    burmeseTextEditingController.text = widget.model.burmese;
     englishTextEditingController.text = widget.model.english;
     frenchTextEditingController.text = widget.model.french;
     germanTextEditingController.text = widget.model.german;
@@ -72,12 +66,9 @@ class _EditCategoryState extends State<EditCategory> {
     hindiTextEditingController.text = widget.model.hindi;
     indonesianTextEditingController.text = widget.model.indonesian;
     japaneseTextEditingController.text = widget.model.japanese;
-    koreanTextEditingController.text = widget.model.korean;
     malayTextEditingController.text = widget.model.malay;
     mandrainTextEditingController.text = widget.model.mandrain;
     marathiTextEditingController.text = widget.model.marathi;
-    pashtoTextEditingController.text = widget.model.pashto;
-    persianFarsiTextEditingController.text = widget.model.persianFarsi;
     portugeseTextEditingController.text = widget.model.portugese;
     punjabiTextEditingController.text = widget.model.punjabi;
     russianTextEditingController.text = widget.model.russian;
@@ -87,7 +78,6 @@ class _EditCategoryState extends State<EditCategory> {
     telguTextEditingController.text = widget.model.telgu;
     turkishTextEditingController.text = widget.model.turkish;
     urduTextEditingController.text = widget.model.urdu;
-    vietnameseTextEditingController.text = widget.model.vietnamese;
     setState(() {
       isLittleKids = widget.model.littleKids;
       isOlderKids = widget.model.olderKids;
@@ -223,7 +213,7 @@ class _EditCategoryState extends State<EditCategory> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        height: MediaQuery.of(context).size.height * 0.17,
+                                        height: MediaQuery.of(context).size.height * 0.1,
                                         child: Row(
                                           children: [
                                             Column(
@@ -271,32 +261,7 @@ class _EditCategoryState extends State<EditCategory> {
                                             ),
                                             Column(
                                               children: [
-                                                // Text(
-                                                //   "Image",
-                                                //   style: TextStyle(color: rHint),
-                                                // ),
-                                                // InkWell(
-                                                //   onTap: () {
-                                                //     pickImage("Image");
-                                                //   },
-                                                //   child: catImageUrl == null
-                                                //       ? Container(
-                                                //           width: 60,
-                                                //           height: 60,
-                                                //           child: ClipRRect(
-                                                //             borderRadius: BorderRadius.circular(10),
-                                                //             child: Image.network(widget.model.image, fit: BoxFit.fill),
-                                                //           ),
-                                                //         ).marginOnly(top: 20)
-                                                //       : Container(
-                                                //           width: 60,
-                                                //           height: 60,
-                                                //           child: ClipRRect(
-                                                //             borderRadius: BorderRadius.circular(10),
-                                                //             child: Image.network(catImageUrl!, fit: BoxFit.fill),
-                                                //           ),
-                                                //         ).marginOnly(top: 20),
-                                                // ),
+
                                               ],
                                             )
                                           ],
@@ -437,51 +402,7 @@ class _EditCategoryState extends State<EditCategory> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      Text(
-                                        "Category Name (Burmese)",
-                                        style: TextStyle(color: rHint),
-                                      ).marginOnly(top: 20),
-                                      TextFormField(
-                                        cursorColor: rGreen,
-                                        controller: burmeseTextEditingController,
-                                        validator: (diameter) {
-                                          if (diameter == null || diameter.isEmpty) {
-                                            return "Burmese name is required";
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.transparent,
-                                          hintText: 'Name in Burmese',
-                                          hintStyle: TextStyle(
-                                            color: rHint.withOpacity(0.5),
-                                          ),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: rHint,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: rHint,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8.0),
-                                          ),
-                                          contentPadding: EdgeInsets.symmetric(
-                                            vertical: 12.0,
-                                            horizontal: 16.0,
-                                          ),
-                                        ),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
+
                                       Text(
                                         "Category Name (French)",
                                         style: TextStyle(color: rHint),
@@ -753,15 +674,15 @@ class _EditCategoryState extends State<EditCategory> {
                                         ),
                                       ),
                                       Text(
-                                        "Category Name (Korean)",
+                                        "Category Name (Malay)",
                                         style: TextStyle(color: rHint),
                                       ).marginOnly(top: 20),
                                       TextFormField(
                                         cursorColor: rGreen,
-                                        controller: koreanTextEditingController,
+                                        controller: malayTextEditingController,
                                         validator: (diameter) {
                                           if (diameter == null || diameter.isEmpty) {
-                                            return "Korean name is required";
+                                            return "Malay name is required";
                                           } else {
                                             return null;
                                           }
@@ -769,7 +690,7 @@ class _EditCategoryState extends State<EditCategory> {
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.transparent,
-                                          hintText: 'Name in Korean',
+                                          hintText: 'Name in Malay',
                                           hintStyle: TextStyle(
                                             color: rHint.withOpacity(0.5),
                                           ),
@@ -798,15 +719,15 @@ class _EditCategoryState extends State<EditCategory> {
                                         ),
                                       ),
                                       Text(
-                                        "Category Name (Malay)",
+                                        "Category Name (Mandrain)",
                                         style: TextStyle(color: rHint),
                                       ).marginOnly(top: 20),
                                       TextFormField(
                                         cursorColor: rGreen,
-                                        controller: malayTextEditingController,
+                                        controller: mandrainTextEditingController,
                                         validator: (diameter) {
                                           if (diameter == null || diameter.isEmpty) {
-                                            return "Malay name is required";
+                                            return "Mandrain name is required";
                                           } else {
                                             return null;
                                           }
@@ -814,7 +735,7 @@ class _EditCategoryState extends State<EditCategory> {
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.transparent,
-                                          hintText: 'Name in Malay',
+                                          hintText: 'Name in Mandrain',
                                           hintStyle: TextStyle(
                                             color: rHint.withOpacity(0.5),
                                           ),
@@ -913,51 +834,7 @@ class _EditCategoryState extends State<EditCategory> {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Category Name (Mandrain)",
-                                      style: TextStyle(color: rHint),
-                                    ).marginOnly(top: 20),
-                                    TextFormField(
-                                      cursorColor: rGreen,
-                                      controller: mandrainTextEditingController,
-                                      validator: (diameter) {
-                                        if (diameter == null || diameter.isEmpty) {
-                                          return "Mandrain name is required";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.transparent,
-                                        hintText: 'Name in Mandrain',
-                                        hintStyle: TextStyle(
-                                          color: rHint.withOpacity(0.5),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 12.0,
-                                          horizontal: 16.0,
-                                        ),
-                                      ),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+
                                     Text(
                                       "Category Name (Marathi)",
                                       style: TextStyle(color: rHint),
@@ -976,96 +853,6 @@ class _EditCategoryState extends State<EditCategory> {
                                         filled: true,
                                         fillColor: Colors.transparent,
                                         hintText: 'Name in Marathi',
-                                        hintStyle: TextStyle(
-                                          color: rHint.withOpacity(0.5),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 12.0,
-                                          horizontal: 16.0,
-                                        ),
-                                      ),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Category Name (Pashto)",
-                                      style: TextStyle(color: rHint),
-                                    ).marginOnly(top: 20),
-                                    TextFormField(
-                                      cursorColor: rGreen,
-                                      controller: pashtoTextEditingController,
-                                      validator: (diameter) {
-                                        if (diameter == null || diameter.isEmpty) {
-                                          return "Pashto name is required";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.transparent,
-                                        hintText: 'Name in Pashto',
-                                        hintStyle: TextStyle(
-                                          color: rHint.withOpacity(0.5),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 12.0,
-                                          horizontal: 16.0,
-                                        ),
-                                      ),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Category Name (Persian Farsi)",
-                                      style: TextStyle(color: rHint),
-                                    ).marginOnly(top: 20),
-                                    TextFormField(
-                                      cursorColor: rGreen,
-                                      controller: persianFarsiTextEditingController,
-                                      validator: (diameter) {
-                                        if (diameter == null || diameter.isEmpty) {
-                                          return "Persian Farsi name is required";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.transparent,
-                                        hintText: 'Name in Persian Farsi',
                                         hintStyle: TextStyle(
                                           color: rHint.withOpacity(0.5),
                                         ),
@@ -1498,51 +1285,6 @@ class _EditCategoryState extends State<EditCategory> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    Text(
-                                      "Category Name (Vietnamise)",
-                                      style: TextStyle(color: rHint),
-                                    ).marginOnly(top: 20),
-                                    TextFormField(
-                                      cursorColor: rGreen,
-                                      controller: vietnameseTextEditingController,
-                                      validator: (diameter) {
-                                        if (diameter == null || diameter.isEmpty) {
-                                          return "Vietnamise name is required";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.transparent,
-                                        hintText: 'Name in Vietnamise',
-                                        hintStyle: TextStyle(
-                                          color: rHint.withOpacity(0.5),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: rHint,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 12.0,
-                                          horizontal: 16.0,
-                                        ),
-                                      ),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
                                   ],
                                 ).marginSymmetric(horizontal: 12)),
                               ],
@@ -1555,10 +1297,8 @@ class _EditCategoryState extends State<EditCategory> {
                                     CategoryModel categoryModel = CategoryModel(
                                         id: widget.model.id,
                                         createdAt: widget.model.createdAt,
-                                        // image: widget.model.image,
                                         arabic: arabicTextEditingController.text,
                                         bengali: bengaliTextEditingController.text,
-                                        burmese: burmeseTextEditingController.text,
                                         english: englishTextEditingController.text,
                                         french: frenchTextEditingController.text,
                                         german: germanTextEditingController.text,
@@ -1567,13 +1307,10 @@ class _EditCategoryState extends State<EditCategory> {
                                         indonesian: indonesianTextEditingController.text,
                                         isEnabled: widget.model.isEnabled,
                                         japanese: japaneseTextEditingController.text,
-                                        korean: koreanTextEditingController.text,
                                         logo: widget.model.logo,
                                         malay: malayTextEditingController.text,
                                         mandrain: mandrainTextEditingController.text,
                                         marathi: marathiTextEditingController.text,
-                                        pashto: pashtoTextEditingController.text,
-                                        persianFarsi: persianFarsiTextEditingController.text,
                                         portugese: portugeseTextEditingController.text,
                                         punjabi: punjabiTextEditingController.text,
                                         russian: russianTextEditingController.text,
@@ -1584,7 +1321,6 @@ class _EditCategoryState extends State<EditCategory> {
                                         turkish: turkishTextEditingController.text,
                                         updatedAt: DateTime.now(),
                                         urdu: urduTextEditingController.text,
-                                        vietnamese: vietnameseTextEditingController.text,
                                         order: widget.model.order,
                                         grownUps: isGrownUps,
                                         littleKids: isLittleKids,
