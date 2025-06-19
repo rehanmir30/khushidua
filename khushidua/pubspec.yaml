@@ -51,7 +51,7 @@ dependencies:
   firebase_messaging:
 
   flutter_sound_record:
-  ffmpeg_kit_flutter_full:
+  # ffmpeg_kit_flutter_full:
   http_parser:
   flutter_html:
   permission_handler:

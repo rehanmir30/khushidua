@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ffmpeg_kit_flutter_full/ffmpeg_kit.dart';
+// import 'package:ffmpeg_kit_flutter_full/ffmpeg_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -205,9 +205,9 @@ class _DuaTileState extends State<DuaTile> {
                 setState(() => _isRecording = false);
                 if (path != null) {
                   _recordedPath = path;
-                  String? mp3Path = await convertAacToMp3(_recordedPath!);
+                  // String? mp3Path = await convertAacToMp3(_recordedPath!);
                   // print("Recording complete: $mp3Path");
-                  _recordedPath = mp3Path; // update to mp3 path
+                  // _recordedPath = mp3Path; // update to mp3 path
                   await sendToApi();
                 }
               } else {
@@ -298,20 +298,20 @@ class _DuaTileState extends State<DuaTile> {
     );
   }
 
-  Future<String?> convertAacToMp3(String inputPath) async {
-    final outputPath = inputPath.replaceAll('.aac', '.mp3');
+  // Future<String?> convertAacToMp3(String inputPath) async {
+  //   final outputPath = inputPath.replaceAll('.aac', '.mp3');
 
-    final session = await FFmpegKit.execute(
-      '-i "$inputPath" -codec:a libmp3lame -qscale:a 2 "$outputPath"',
-    );
+  //   final session = await FFmpegKit.execute(
+  //     '-i "$inputPath" -codec:a libmp3lame -qscale:a 2 "$outputPath"',
+  //   );
 
-    final file = File(outputPath);
-    if (await file.exists()) {
-      return outputPath;
-    } else {
-      return null;
-    }
-  }
+  //   final file = File(outputPath);
+  //   if (await file.exists()) {
+  //     return outputPath;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
