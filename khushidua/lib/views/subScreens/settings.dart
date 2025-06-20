@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../animations/fadeInAnimationBTT.dart';
@@ -57,7 +58,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // Get.to(PremiumSettings(), transition: Transition.fade);
   }
 
-  shareApp() {}
+  shareApp() {
+    Share.share(
+      'https://play.google.com/store/apps/details?id=com.nauman7888.khushiiduaapp',
+      subject: 'My Islamic Learning App',
+    );
+  }
 
   about() {
     // Get.to(AboutScreen(), transition: Transition.fade);
@@ -69,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List functionsList = [accountSettings, downloadSettings, languageSettings, premiumSettings, shareApp, about];
+    List functionsList = [accountSettings, downloadSettings, languageSettings, shareApp,premiumSettings , about];
     return SafeArea(
         child: Scaffold(
       backgroundColor: rwhite,
@@ -167,6 +173,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           SharedPreferences prefs=await SharedPreferences.getInstance();
                           prefs.clear();
                           userController.setLoggedIn(false);
+                          Get.find<UserController>().setUserName("");
+                          Get.find<UserController>().setPoints(0);
                         }else{
                           Get.to(SignupScreen(),transition: Transition.downToUp);
                         }

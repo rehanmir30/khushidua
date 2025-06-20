@@ -84,6 +84,7 @@ class NotificationService{
       "title": title,
       "message": description,
       "createdAt": DateTime.now(),
+      "sentTo":null
     };
     await notificationRef.doc(id).set(map);
 
@@ -105,7 +106,7 @@ class NotificationService{
         headers: <String, String>{"Content-Type": "application/json", "Authorization": "Bearer $serverKey"}, body: jsonEncode(message));
 
     if (response.statusCode != 200) {
-      CustomSnackbar.show("Failed".tr, "Failed to send notification to ${user.name}", isSuccess: false);
+      // CustomSnackbar.show("Failed".tr, "Failed to send notification to ${user.name}", isSuccess: false);
     }else if(response.statusCode==200){
 
     }

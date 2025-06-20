@@ -7,6 +7,9 @@ import 'package:khushidua/models/userModel.dart';
 import 'package:khushidua/widgets/customSnackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controllers/notificationController.dart';
+import '../views/blockedScreen.dart';
+
 class AuthService {
   UserController _userController = Get.find<UserController>();
 
@@ -43,7 +46,9 @@ class AuthService {
       _userController.setLoggedIn(true);
       await prefs.setBool("isLoggedIn", true);
       await prefs.setString("userId", user.id);
+      _userController.setLoggedIn(true);
       await getUserData(userCredential.user!.uid);
+      Get.find<NotificationController>().getAllNotifications();
       Get.back();
       CustomSnackbar.show("Success", "Signed up successfully");
     } on FirebaseAuthException catch (e) {
@@ -61,8 +66,10 @@ class AuthService {
         password: password,
       );
       prefs.setString("userId", userCredential.user!.uid);
+      _userController.setLoggedIn(true);
+      await userRef.doc(userCredential.user!.uid).update({"fcmToken":await getFCMToken(),"isLoggedIn":true});
       getUserData(userCredential.user!.uid);
-      await userRef.doc(userCredential.user!.uid).update({"fcmToken":await getFCMToken()});
+      Get.find<NotificationController>().getAllNotifications();
       CustomSnackbar.show("Success", "Login successfull");
     } on FirebaseAuthException catch (e) {
       CustomSnackbar.show("Error", "Something went wrong. Try again later", isSuccess: false);
@@ -71,7 +78,13 @@ class AuthService {
 
   getUserData(String userId) async {
     await userRef.doc(userId).snapshots().listen((event) {
-      _userController.setUserModel(UserModel.fromMap(event.data()!));
+
+      final userModel = UserModel.fromMap(event.data()!);
+        _userController.setUserModel(userModel);
+
+      if (userModel.isBlocked) {
+        Get.offAll(() => BlockedScreen());
+      }
     });
   }
 }

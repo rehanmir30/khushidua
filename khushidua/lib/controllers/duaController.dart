@@ -30,7 +30,6 @@ class DuaController extends GetxController{
     _filteredDuas = _allDuas.where((dua) {
       return dua.subCategoryIds.contains(subCategoryModel.id);
     }).toList();
-    print(_filteredDuas.length);
     update();
   }
 }

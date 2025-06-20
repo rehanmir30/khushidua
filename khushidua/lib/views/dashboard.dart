@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:khushidua/controllers/categoryController.dart';
 import 'package:khushidua/controllers/duaController.dart';
+import 'package:khushidua/controllers/notificationController.dart';
 import 'package:khushidua/views/subScreens/home.dart';
+import 'package:khushidua/views/subScreens/notifications.dart';
 import 'package:khushidua/views/subScreens/prayer.dart';
 import 'package:khushidua/views/subScreens/search.dart';
 import 'package:khushidua/views/subScreens/settings.dart';
@@ -30,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
     PrayerScreen(),
     SettingsScreen(),
     SearchScreen(),
-    Container(),
+    NotificationScreen(),
   ];
 
   BannerAd? _bannerAd;
@@ -52,6 +54,7 @@ class _DashboardState extends State<Dashboard> {
     Get.find<CategoryController>().getAllCategories();
     Get.find<CategoryController>().getAllSubCategories();
     Get.find<DuaController>().getAllDuas();
+    Get.find<NotificationController>().getAllNotifications();
 
     _bannerAd = BannerAd(
       adUnitId: "ca-app-pub-3940256099942544/6300978111",
@@ -77,8 +80,10 @@ class _DashboardState extends State<Dashboard> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userId= await prefs.getString("userId")??"";
 
+
     if(userId!=""){
       Get.find<UserController>().getUserData(userId);
+
     }else{
       isLoggedIn = await prefs.getBool("isLoggedIn") ?? false;
       points = await prefs.getInt("userPoints") ?? 0;
@@ -107,12 +112,11 @@ class _DashboardState extends State<Dashboard> {
         return Column(
           children: [
             Expanded(child: _selectedScreen),
-            if(userController.userModel==null||!userController.userModel!.isMember)
+            if(userController.userModel==null||(!userController.userModel!.isMember)||userController.userModel!.isBlocked)
             if (_isAdLoaded)
               Container(
                 alignment: Alignment.center,
                 width: _bannerAd!.size.width.toDouble(),
-                // height: _bannerAd!.size.height.toDouble(),
                 height:80,
                 child: AdWidget(ad: _bannerAd!),
               ),

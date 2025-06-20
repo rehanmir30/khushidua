@@ -205,9 +205,9 @@ class _DuaTileState extends State<DuaTile> {
                 setState(() => _isRecording = false);
                 if (path != null) {
                   _recordedPath = path;
-                  // String? mp3Path = await convertAacToMp3(_recordedPath!);
-                  // print("Recording complete: $mp3Path");
-                  // _recordedPath = mp3Path; // update to mp3 path
+                  String? mp3Path = await convertAacToMp3(_recordedPath!);
+                  print("Recording complete: $mp3Path");
+                  _recordedPath = mp3Path;
                   await sendToApi();
                 }
               } else {
@@ -298,20 +298,20 @@ class _DuaTileState extends State<DuaTile> {
     );
   }
 
-  // Future<String?> convertAacToMp3(String inputPath) async {
-  //   final outputPath = inputPath.replaceAll('.aac', '.mp3');
+  Future<String?> convertAacToMp3(String inputPath) async {
+    final outputPath = inputPath.replaceAll('.aac', '.mp3');
 
-  //   final session = await FFmpegKit.execute(
-  //     '-i "$inputPath" -codec:a libmp3lame -qscale:a 2 "$outputPath"',
-  //   );
+    // final session = await FFmpegKit.execute(
+    //   '-i "$inputPath" -codec:a libmp3lame -qscale:a 2 "$outputPath"',
+    // );
 
-  //   final file = File(outputPath);
-  //   if (await file.exists()) {
-  //     return outputPath;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+    final file = File(outputPath);
+    if (await file.exists()) {
+      return outputPath;
+    } else {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -364,7 +364,7 @@ class _DuaTileState extends State<DuaTile> {
               ).marginAll(15),
               Divider(height: 2, color: rwhite),
               Text(
-                "${widget.dua.english}",
+                "${widget.dua.transliteration}",
                 textAlign: TextAlign.start,
                 style: TextStyle(color: rblack, fontSize: 20),
               ).marginAll(15),

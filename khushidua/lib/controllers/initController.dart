@@ -4,6 +4,8 @@ import 'package:khushidua/controllers/duaController.dart';
 import 'package:khushidua/controllers/themeController.dart';
 import 'package:khushidua/controllers/userController.dart';
 
+import 'notificationController.dart';
+
 class InitControllers extends Bindings {
   @override
   void dependencies() {
@@ -11,5 +13,6 @@ class InitControllers extends Bindings {
     Get.put(ThemeController(), permanent: true);
     Get.put(CategoryController(), permanent: true);
     Get.put(DuaController(), permanent: true);
+    Get.put(NotificationController(), permanent: true);
   }
 }
