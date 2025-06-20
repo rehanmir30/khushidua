@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ class _NotificationTabState extends State<NotificationTab> {
                   InkWell(
                     splashColor: Colors.transparent,
                     onTap: () {
-
+                      showSendNotificationPopup();
                     },
                     child: Container(
                       decoration: BoxDecoration(color: rGreen, borderRadius: BorderRadius.circular(8)),
@@ -102,7 +103,7 @@ class _NotificationTabState extends State<NotificationTab> {
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),color: rBlack),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),color: rBlack.withOpacity(0.7)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -120,7 +121,7 @@ class _NotificationTabState extends State<NotificationTab> {
                                       },
                                       child: Icon(
                                         Icons.close,
-                                        color: rWhite,
+                                        color: rBlack.withOpacity(0.7),
                                       )))
                             ],
                           ).marginSymmetric(horizontal: 20, vertical: 12),
@@ -128,8 +129,8 @@ class _NotificationTabState extends State<NotificationTab> {
 
                         //entries
                         //Title and Description
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //Title
@@ -138,7 +139,7 @@ class _NotificationTabState extends State<NotificationTab> {
                               borderRadius: BorderRadius.circular(8.0),
                               child: Container(
                                 // height: 42,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                width: MediaQuery.of(context).size.width * 0.8,
                                 child: TextFormField(
                                   textInputAction: TextInputAction.done,
 
@@ -167,26 +168,26 @@ class _NotificationTabState extends State<NotificationTab> {
                                 ),
                               ),
                             ),
-
+SizedBox(height: 20,),
                             //Description
                             Material(
                               elevation: 8,
                               borderRadius: BorderRadius.circular(8.0),
                               child: Container(
                                 // height: 42,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                width: MediaQuery.of(context).size.width * 0.8,
                                 child: TextFormField(
                                   textInputAction: TextInputAction.done,
                                   controller: notificationDescriptionController,
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(color: rBlack),
+                                  maxLines: 3,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     // hintText: "Product name",
                                     labelText: "Notification Description *",
                                     fillColor: rWhite,
                                     filled: true,
-                                    // contentPadding: const EdgeInsets.all(12),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8.0),
                                       borderSide: BorderSide(color: rWhite, width: 1),

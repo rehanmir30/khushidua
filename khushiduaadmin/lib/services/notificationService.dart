@@ -8,6 +8,7 @@ import 'package:khushiduaadmin/controllers/userController.dart';
 import 'package:khushiduaadmin/models/notificationModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
+import 'package:khushiduaadmin/models/userModel.dart';
 
 import '../widgets/customSnackbar.dart';
 
@@ -81,12 +82,45 @@ class NotificationService{
     Map<String, dynamic> map = {
       "id": id,
       "title": title,
-      "description": description,
+      "message": description,
       "createdAt": DateTime.now(),
     };
     await notificationRef.doc(id).set(map);
 
     CustomSnackbar.show("Sent".tr, "Global Notification sent".tr, isSuccess: true);
+  }
+
+  sendIndividualNotification(UserModel user,String title,String msg) async{
+    final String serverKey = await getAccessToken();
+    String endpointFirebaseCloudMessaging = "https://fcm.googleapis.com/v1/projects/khushidua/messages:send";
+
+    Map<String, dynamic> message={
+      "message": {
+        "token": user.fcmToken,
+        "notification": {"title": title, "body": msg},
+        "data": {"notificationId": "ABC"}
+      }
+    };
+    final http.Response response = await http.post(Uri.parse(endpointFirebaseCloudMessaging),
+        headers: <String, String>{"Content-Type": "application/json", "Authorization": "Bearer $serverKey"}, body: jsonEncode(message));
+
+    if (response.statusCode != 200) {
+      CustomSnackbar.show("Failed".tr, "Failed to send notification to ${user.name}", isSuccess: false);
+    }else if(response.statusCode==200){
+
+    }
+
+    String id = notificationRef.doc().id;
+    Map<String, dynamic> map = {
+      "id": id,
+      "title": title,
+      "message": msg,
+      "createdAt": DateTime.now(),
+      "sentTo":user.id
+    };
+    await notificationRef.doc(id).set(map);
+
+
   }
 
 

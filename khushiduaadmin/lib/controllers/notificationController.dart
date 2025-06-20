@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../models/notificationModel.dart';
+import '../models/userModel.dart';
 import '../services/notificationService.dart';
 
 class NotificationController extends GetxController {
@@ -24,5 +25,9 @@ class NotificationController extends GetxController {
 
   sendGlobalNotification(String title, String description) async {
     await NotificationService().sendGlobalNotification(title, description);
+  }
+
+  sendIndividualNotification(UserModel user,String title,String message)async{
+    await NotificationService().sendIndividualNotification(user,title,message);
   }
 }

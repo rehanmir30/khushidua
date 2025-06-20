@@ -3,7 +3,6 @@ class CategoryModel {
   String logo = '';
   String arabic = '';
   String bengali = '';
-  String burmese = '';
   String english = '';
   String french = '';
   String german = '';
@@ -11,12 +10,9 @@ class CategoryModel {
   String hindi = '';
   String indonesian = '';
   String japanese = '';
-  String korean = '';
   String malay = '';
   String mandrain = '';
   String marathi = '';
-  String pashto = '';
-  String persianFarsi = '';
   String portugese = '';
   String punjabi = '';
   String russian = '';
@@ -26,7 +22,6 @@ class CategoryModel {
   String telgu = '';
   String turkish = '';
   String urdu = '';
-  String vietnamese = '';
   DateTime createdAt = DateTime.now();
   DateTime updatedAt = DateTime.now();
   bool isEnabled = true;
@@ -40,7 +35,6 @@ class CategoryModel {
     required this.createdAt,
     required this.arabic,
     required this.bengali,
-    required this.burmese,
     required this.english,
     required this.french,
     required this.german,
@@ -49,13 +43,10 @@ class CategoryModel {
     required this.indonesian,
     required this.isEnabled,
     required this.japanese,
-    required this.korean,
     required this.logo,
     required this.malay,
     required this.mandrain,
     required this.marathi,
-    required this.pashto,
-    required this.persianFarsi,
     required this.portugese,
     required this.punjabi,
     required this.russian,
@@ -66,7 +57,6 @@ class CategoryModel {
     required this.turkish,
     required this.updatedAt,
     required this.urdu,
-    required this.vietnamese,
     required this.order,
     required this.grownUps,
     required this.littleKids,
@@ -79,8 +69,6 @@ class CategoryModel {
         return arabic;
       case 'Bengali':
         return bengali;
-      case 'Burmese':
-        return burmese;
       case 'English':
         return english;
       case 'French':
@@ -95,18 +83,12 @@ class CategoryModel {
         return indonesian;
       case 'Japanese':
         return japanese;
-      case 'Korean':
-        return korean;
       case 'Malay':
         return malay;
       case 'Mandarin':
         return mandrain;
       case 'Marathi':
         return marathi;
-      case 'Pashto':
-        return pashto;
-      case 'Persian':
-        return persianFarsi;
       case 'Portuguese':
         return portugese;
       case 'Punjabi':
@@ -125,8 +107,6 @@ class CategoryModel {
         return turkish;
       case 'Urdu':
         return urdu;
-      case 'Vietnamese':
-        return vietnamese;
       default:
         return english; // fallback
     }
@@ -139,7 +119,6 @@ class CategoryModel {
         createdAt: map["createdAt"].toDate(),
         arabic: map["arabic"],
         bengali: map["bengali"],
-        burmese: map["burmese"],
         english: map["english"],
         french: map["french"],
         german: map["german"],
@@ -148,13 +127,10 @@ class CategoryModel {
         indonesian: map["indonesian"],
         isEnabled: map["isEnabled"],
         japanese: map["japanese"],
-        korean: map["korean"],
         logo: map["logo"],
         malay: map["malay"],
         mandrain: map["mandrain"],
         marathi: map["marathi"],
-        pashto: map["pashto"],
-        persianFarsi: map["persianFarsi"],
         portugese: map["portugese"],
         punjabi: map["punjabi"],
         russian: map["russian"],
@@ -165,7 +141,6 @@ class CategoryModel {
         turkish: map["turkish"],
         updatedAt: map["updatedAt"].toDate(),
         urdu: map["urdu"],
-        vietnamese: map["vietnamese"],
         order: map["order"],
       littleKids: map["littleKids"],
       olderKids: map["olderKids"],
@@ -179,7 +154,6 @@ class CategoryModel {
       "createdAt": createdAt,
       "arabic": arabic,
       "bengali": bengali,
-      "burmese": burmese,
       "english": english,
       "french": french,
       "german": german,
@@ -188,13 +162,10 @@ class CategoryModel {
       "indonesian": indonesian,
       "isEnabled": isEnabled,
       "japanese": japanese,
-      "korean": korean,
       "logo": logo,
       "malay": malay,
       "mandrain": mandrain,
       "marathi": marathi,
-      "pashto": pashto,
-      "persianFarsi": persianFarsi,
       "portugese": portugese,
       "punjabi": punjabi,
       "russian": russian,
@@ -205,7 +176,6 @@ class CategoryModel {
       "turkish": turkish,
       "updatedAt": updatedAt,
       "urdu": urdu,
-      "vietnamese": vietnamese,
       "order":order,
       "grownUps":grownUps,
       "olderKids":olderKids,

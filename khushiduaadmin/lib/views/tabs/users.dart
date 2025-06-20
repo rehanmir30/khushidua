@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:khushiduaadmin/constants/firebaseRef.dart';
+import 'package:khushiduaadmin/controllers/notificationController.dart';
 import 'package:khushiduaadmin/controllers/userController.dart';
 import 'package:khushiduaadmin/models/userModel.dart';
 
@@ -344,6 +345,11 @@ class _UserTileState extends State<UserTile> {
               GestureDetector(
                 onTap: () async {
                   await userRef.doc(widget.userModel.id).update({"isBlocked":action});
+                  if(action==true){
+                    await Get.find<NotificationController>().sendIndividualNotification(widget.userModel, "Account suspended", "Your account has been blocked due to malicious activity");
+                  }else{
+                    await Get.find<NotificationController>().sendIndividualNotification(widget.userModel, "Account activated", "Your account has been unbanned");
+                  }
                   Get.back();
                 },
                 child: Container(
@@ -394,6 +400,11 @@ class _UserTileState extends State<UserTile> {
               GestureDetector(
                 onTap: () async {
                   await userRef.doc(widget.userModel.id).update({"isMember":action});
+                  if(action){
+                    await Get.find<NotificationController>().sendIndividualNotification(widget.userModel, "Account upgraded", "You have successfully purchased premium membership");
+                  }else{
+                    await Get.find<NotificationController>().sendIndividualNotification(widget.userModel, "Account degraded", "You account membership has been expired");
+                  }
                   Get.back();
                 },
                 child: Container(

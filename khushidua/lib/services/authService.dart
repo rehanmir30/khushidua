@@ -43,6 +43,7 @@ class AuthService {
       _userController.setLoggedIn(true);
       await prefs.setBool("isLoggedIn", true);
       await prefs.setString("userId", user.id);
+      await getUserData(userCredential.user!.uid);
       Get.back();
       CustomSnackbar.show("Success", "Signed up successfully");
     } on FirebaseAuthException catch (e) {
@@ -61,6 +62,7 @@ class AuthService {
       );
       prefs.setString("userId", userCredential.user!.uid);
       getUserData(userCredential.user!.uid);
+      await userRef.doc(userCredential.user!.uid).update({"fcmToken":await getFCMToken()});
       CustomSnackbar.show("Success", "Login successfull");
     } on FirebaseAuthException catch (e) {
       CustomSnackbar.show("Error", "Something went wrong. Try again later", isSuccess: false);
