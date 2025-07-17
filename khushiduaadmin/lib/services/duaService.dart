@@ -24,14 +24,14 @@ class DuaService{
      });
    }
 
-   createDua(DuaModel duaModel, File duaImage, File grownUpmp3File, File littleKidmp3File, File olderKidmp3File) async{
+   createDua(DuaModel duaModel, File grownUpmp3File, File littleKidmp3File, File olderKidmp3File) async{
      _duaController.setLoading(true);
      duaModel.id=await duaRef.doc().id;
      try{
        duaModel.olderKidsAudio=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/olderKidsAudio"))!;
        duaModel.littleKidsAudio=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/littleKidsAudio"))!;
        duaModel.grownUpsAudio=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/grownUpsAudio"))!;
-       duaModel.image=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/image"))!;
+       // duaModel.image=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/image"))!;
        duaRef.doc(duaModel.id).set(duaModel.toMap());
        _duaController.setLoading(false);
        Get.back();

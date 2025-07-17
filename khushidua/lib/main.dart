@@ -13,7 +13,13 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  MobileAds.instance.initialize();
+  // await MobileAds.instance.initialize();
+
+  MobileAds.instance.initialize().then((InitializationStatus status) {
+    debugPrint('AdMob initialized: ${status.adapterStatuses}');
+  }).catchError((e) {
+    debugPrint('AdMob initialization failed: $e');
+  });
   runApp(const MyApp());
 }
 

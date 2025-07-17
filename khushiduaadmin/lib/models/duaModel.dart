@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 
 class DuaModel{
   String id = '';
-  String image = '';
   String arabic = '';
   String bengali = '';
   String transliteration = '';
@@ -41,7 +39,6 @@ class DuaModel{
   DuaModel({
     required this.id,
     required this.createdAt,
-    required this.image,
     required this.arabic,
     required this.bengali,
     required this.transliteration,
@@ -80,7 +77,6 @@ class DuaModel{
     return DuaModel(
         id: map["id"],
         createdAt: map["createdAt"].toDate(),
-        image: map["image"],
         arabic: map["arabic"],
         transliteration: map["transliteration"],
         bengali: map["bengali"],
@@ -120,7 +116,6 @@ class DuaModel{
     return {
       "id": id,
       "createdAt": createdAt,
-      "image": image,
       "arabic": arabic,
       "bengali": bengali,
       "transliteration": transliteration,

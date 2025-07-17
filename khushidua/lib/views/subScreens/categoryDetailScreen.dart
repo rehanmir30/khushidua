@@ -157,7 +157,7 @@ class SubCategoryTile extends StatelessWidget {
         onTap: isClickable
             ? () {
           final themeController = Get.find<ThemeController>();
-          if (themeController.selectedAgeGroup == 0) {
+          if (themeController.selectedAgeGroup == 0|| themeController.selectedAgeGroup==1) {
             Get.to(ImageScreen(subCategoryModel: subCategoryModel), transition: Transition.fadeIn);
           } else {
             Get.to(OpenDuasScreen(subCategoryModel));

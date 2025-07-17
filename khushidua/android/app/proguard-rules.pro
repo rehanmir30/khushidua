@@ -6,6 +6,10 @@
 -keep class io.flutter.embedding.engine.** { *; }
 -keep class io.flutter.** { *; }
 
+-keep class com.google.android.gms.ads.** { *; }
+-keep class com.google.ads.mediation.** { *; }
+-keep class com.google.android.ads.** { *; }
+
 # Avoid stripping classes used by reflection
 -keep class * extends io.flutter.plugin.common.MethodCallHandler
 -keep class * extends io.flutter.plugin.common.EventChannel$StreamHandler

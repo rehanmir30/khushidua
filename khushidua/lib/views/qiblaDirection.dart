@@ -65,6 +65,7 @@ class _CompassScreenState extends State<CompassScreen> {
         ),
         child: SafeArea(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Align(
                   alignment: Alignment.topLeft,
@@ -73,6 +74,7 @@ class _CompassScreenState extends State<CompassScreen> {
                         Get.back();
                       },
                       child: Icon(Icons.close,color: rblack,))).marginSymmetric(horizontal: 20).marginOnly(top: 12),
+              Image.asset("assets/images/kaaba.png"),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,

@@ -9,6 +9,7 @@ import '../../constants/colors.dart';
 import '../../constants/firebaseRef.dart';
 import '../../controllers/categoryController.dart';
 import '../../widgets/topBar.dart';
+import '../subCategory/editSubCategory.dart';
 import 'createSubCategory.dart';
 
 class AllSubCategories extends StatefulWidget {
@@ -54,218 +55,220 @@ List<SubCategoryModel> allSubCategories=[];
       backgroundColor: rBlack,
       body: GetBuilder<CategoryController>(
         builder: (categoryController) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TopBar(title: "${widget.categoryModel.english}"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 125,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: rBg),
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(color: Color(0xff955C00), shape: BoxShape.circle),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset("assets/svgs/coins.svg"),
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TweenAnimationBuilder<int>(
-                                tween: IntTween(begin: 0, end: allSubCategories.length),
-                                duration: Duration(seconds: 2),
-                                builder: (context, value, child) {
-                                  return Text(
-                                    _formatNumber(value),
-                                    style: TextStyle(color: rWhite, fontWeight: FontWeight.bold, fontSize: 30),
-                                  );
-                                },
-                              ),
-                              Text(
-                                "Total Sub Categories",
-                                style: TextStyle(color: rWhite, fontWeight: FontWeight.normal, fontSize: 16),
-                              ),
-                            ],
-                          ).marginOnly(left: 12)
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 125,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: rBg),
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(color: Color(0xff883232), shape: BoxShape.circle),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset("assets/svgs/coins.svg"),
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Text("${coinController.allCoins.length??0}",style: TextStyle(color: rWhite,fontWeight: FontWeight.bold,fontSize: 30),),
-                              TweenAnimationBuilder<int>(
-                                tween: IntTween(
-                                    begin: 0, end: allSubCategories.where((element) => element.isEnabled == false).toList().length),
-                                duration: Duration(seconds: 1),
-                                builder: (context, value, child) {
-                                  return Text(
-                                    _formatNumber(value),
-                                    style: TextStyle(color: rWhite, fontWeight: FontWeight.bold, fontSize: 30),
-                                  );
-                                },
-                              ),
-                              Text(
-                                "Disabled Sub Categories",
-                                style: TextStyle(color: rWhite, fontWeight: FontWeight.normal, fontSize: 16),
-                              ),
-                            ],
-                          ).marginOnly(left: 12)
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 125,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: rBg),
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(color: Color(0xff008A3F), shape: BoxShape.circle),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset("assets/svgs/coins.svg"),
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Text("3,450",style: TextStyle(color: rWhite,fontWeight: FontWeight.bold,fontSize: 30),),
-                              TweenAnimationBuilder<int>(
-                                tween: IntTween(
-                                    begin: 0, end: allSubCategories.where((element) => element.isEnabled == true).toList().length),
-                                duration: Duration(seconds: 1),
-                                builder: (context, value, child) {
-                                  return Text(
-                                    _formatNumber(value),
-                                    style: TextStyle(color: rWhite, fontWeight: FontWeight.bold, fontSize: 30),
-                                  );
-                                },
-                              ),
-                              Text(
-                                "Enabled Sub Categories",
-                                style: TextStyle(color: rWhite, fontWeight: FontWeight.normal, fontSize: 16),
-                              ),
-                            ],
-                          ).marginOnly(left: 12)
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(child: Container())
-                ],
-              ).marginOnly(top: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "All Sub Categories",
-                    style: TextStyle(color: rWhite, fontWeight: FontWeight.w600, fontSize: 20),
-                  ),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Get.to(CreateSubCategory(widget.categoryModel,allSubCategories.length), transition: Transition.upToDown);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(color: rGreen, borderRadius: BorderRadius.circular(8)),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/svgs/add.svg"),
-                          Text(
-                            "Create a Sub Category",
-                            style: TextStyle(color: rWhite),
-                          ).marginOnly(left: 8)
-                        ],
-                      ).marginAll(12),
-                    ),
-                  )
-                ],
-              ).marginOnly(top: 12),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: rBg),
-                child: Column(
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TopBar(title: "${widget.categoryModel.english}"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TableHeader(),
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        iconTheme: IconThemeData(color: Colors.white),
-                      ),
-                      child: ReorderableListView(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        onReorder: (oldIndex, newIndex) async {
-                          if (newIndex > oldIndex) newIndex -= 1;
-
-                          final movedSubCategory = allSubCategories.removeAt(oldIndex);
-                          allSubCategories.insert(newIndex, movedSubCategory);
-
-                          for (int i = 0; i < allSubCategories.length; i++) {
-                            final subCategory = allSubCategories[i];
-                            await subCategoryRef.doc(subCategory.id).update({"order": i});
-                          }
-                          setState(() {
-                          });
-                        },
-                        children: [
-                          if(allSubCategories.length>0)
-                          for (int index = 0; index < allSubCategories.length; index++)
-                            SubCategoryTile(
-                              allSubCategories[index],
-                              key: ValueKey(allSubCategories[index].id),
+                    Expanded(
+                      child: Container(
+                        height: 125,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: rBg),
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(color: Color(0xff955C00), shape: BoxShape.circle),
+                              alignment: Alignment.center,
+                              child: SvgPicture.asset("assets/svgs/coins.svg"),
                             ),
-
-                        ],
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TweenAnimationBuilder<int>(
+                                  tween: IntTween(begin: 0, end: allSubCategories.length),
+                                  duration: Duration(seconds: 2),
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      _formatNumber(value),
+                                      style: TextStyle(color: rWhite, fontWeight: FontWeight.bold, fontSize: 30),
+                                    );
+                                  },
+                                ),
+                                Text(
+                                  "Total Sub Categories",
+                                  style: TextStyle(color: rWhite, fontWeight: FontWeight.normal, fontSize: 16),
+                                ),
+                              ],
+                            ).marginOnly(left: 12)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 125,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: rBg),
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(color: Color(0xff883232), shape: BoxShape.circle),
+                              alignment: Alignment.center,
+                              child: SvgPicture.asset("assets/svgs/coins.svg"),
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Text("${coinController.allCoins.length??0}",style: TextStyle(color: rWhite,fontWeight: FontWeight.bold,fontSize: 30),),
+                                TweenAnimationBuilder<int>(
+                                  tween: IntTween(
+                                      begin: 0, end: allSubCategories.where((element) => element.isEnabled == false).toList().length),
+                                  duration: Duration(seconds: 1),
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      _formatNumber(value),
+                                      style: TextStyle(color: rWhite, fontWeight: FontWeight.bold, fontSize: 30),
+                                    );
+                                  },
+                                ),
+                                Text(
+                                  "Disabled Sub Categories",
+                                  style: TextStyle(color: rWhite, fontWeight: FontWeight.normal, fontSize: 16),
+                                ),
+                              ],
+                            ).marginOnly(left: 12)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 125,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: rBg),
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(color: Color(0xff008A3F), shape: BoxShape.circle),
+                              alignment: Alignment.center,
+                              child: SvgPicture.asset("assets/svgs/coins.svg"),
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Text("3,450",style: TextStyle(color: rWhite,fontWeight: FontWeight.bold,fontSize: 30),),
+                                TweenAnimationBuilder<int>(
+                                  tween: IntTween(
+                                      begin: 0, end: allSubCategories.where((element) => element.isEnabled == true).toList().length),
+                                  duration: Duration(seconds: 1),
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      _formatNumber(value),
+                                      style: TextStyle(color: rWhite, fontWeight: FontWeight.bold, fontSize: 30),
+                                    );
+                                  },
+                                ),
+                                Text(
+                                  "Enabled Sub Categories",
+                                  style: TextStyle(color: rWhite, fontWeight: FontWeight.normal, fontSize: 16),
+                                ),
+                              ],
+                            ).marginOnly(left: 12)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(child: Container())
+                  ],
+                ).marginOnly(top: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "All Sub Categories",
+                      style: TextStyle(color: rWhite, fontWeight: FontWeight.w600, fontSize: 20),
+                    ),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Get.to(CreateSubCategory(widget.categoryModel,allSubCategories.length), transition: Transition.upToDown);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(color: rGreen, borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset("assets/svgs/add.svg"),
+                            Text(
+                              "Create a Sub Category",
+                              style: TextStyle(color: rWhite),
+                            ).marginOnly(left: 8)
+                          ],
+                        ).marginAll(12),
                       ),
                     )
                   ],
+                ).marginOnly(top: 12),
+                SizedBox(
+                  height: 20,
                 ),
-              )
-            ],
-          ).marginSymmetric(horizontal: 12, vertical: 12);
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: rBg),
+                  child: Column(
+                    children: [
+                      TableHeader(),
+                      Theme(
+                        data: Theme.of(context).copyWith(
+                          iconTheme: IconThemeData(color: Colors.white),
+                        ),
+                        child: ReorderableListView(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          onReorder: (oldIndex, newIndex) async {
+                            if (newIndex > oldIndex) newIndex -= 1;
+            
+                            final movedSubCategory = allSubCategories.removeAt(oldIndex);
+                            allSubCategories.insert(newIndex, movedSubCategory);
+            
+                            for (int i = 0; i < allSubCategories.length; i++) {
+                              final subCategory = allSubCategories[i];
+                              await subCategoryRef.doc(subCategory.id).update({"order": i});
+                            }
+                            setState(() {
+                            });
+                          },
+                          children: [
+                            if(allSubCategories.length>0)
+                            for (int index = 0; index < allSubCategories.length; index++)
+                              SubCategoryTile(
+                                allSubCategories[index],
+                                key: ValueKey(allSubCategories[index].id),
+                              ),
+            
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ).marginSymmetric(horizontal: 12, vertical: 12),
+          );
         },
       ),
     );
@@ -357,7 +360,7 @@ class _SubCategoryTileState extends State<SubCategoryTile> {
             flex: 1,
             child: InkWell(
               onTap: () {
-                // Get.to(EditSubCategory(model: widget.subCategoryModel));
+                Get.to(EditSubCategory(widget.subCategoryModel));
               },
               child: Align(alignment: Alignment.centerLeft, child: SvgPicture.asset("assets/svgs/eye.svg")),
             )),

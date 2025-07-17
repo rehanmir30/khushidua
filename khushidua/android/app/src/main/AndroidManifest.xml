@@ -12,7 +12,7 @@ package="com.khushiDua.app.khushidua">
 
     <application
         android:label="khushidua"
-        android:name="${applicationName}"
+
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -42,7 +42,8 @@ package="com.khushiDua.app.khushidua">
             android:value="2" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3874043468724625~7636794047" />
+            android:value="ca-app-pub-3940256099942544~3347511713"
+            />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility?hl=en and

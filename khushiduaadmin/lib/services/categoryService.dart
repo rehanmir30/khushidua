@@ -115,7 +115,7 @@ class CategoryService {
     Get.back();
     Get.back();
     Get.back();
-    CustomSnackbar.show("Success", "Category created successfully");
+    CustomSnackbar.show("Success", "Sub Category created successfully");
   }
 
    getAllSubCategories() {
@@ -127,4 +127,15 @@ class CategoryService {
        });
      });
    }
+
+  editSubCategory(SubCategoryModel subCategoryModel, image) async{
+    if(image!=null){
+      subCategoryModel.image = (await uploadFileToFirebase(image, "${subCategoryModel.id}/subCategoryImage"))!;
+    }
+    await subCategoryRef.doc(subCategoryModel.id).update(subCategoryModel.toMap());
+    Get.back();
+    Get.back();
+
+    CustomSnackbar.show("Success", "Sub Category updated successfully");
+  }
 }

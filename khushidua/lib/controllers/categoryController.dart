@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:khushidua/controllers/themeController.dart';
 
 import '../models/categoryModel.dart';
 import '../models/subCategoryModel.dart';
@@ -57,10 +58,14 @@ class CategoryController extends GetxController {
   }
 
   getSubCategories(CategoryModel categoryModel) {
+    ThemeController _themeController=Get.find<ThemeController>();
     // print(categoryModel.id);
     // print(_allSubCategories.length);
     _filteredSubCategories.clear();
-    _filteredSubCategories = _allSubCategories.where((element) => element.categoryId == categoryModel.id).toList();
+    _filteredSubCategories = _allSubCategories
+        .where((element) => element.categoryId == categoryModel.id && element.isEnabled == true)
+        .toList();
+
     // for (var item in _allSubCategories) {
     //   print(item.categoryId);
     //   if (item.categoryId == categoryModel.id) {

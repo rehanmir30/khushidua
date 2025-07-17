@@ -80,10 +80,8 @@ class _DashboardState extends State<Dashboard> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userId= await prefs.getString("userId")??"";
 
-
     if(userId!=""){
       Get.find<UserController>().getUserData(userId);
-
     }else{
       isLoggedIn = await prefs.getBool("isLoggedIn") ?? false;
       points = await prefs.getInt("userPoints") ?? 0;
@@ -94,7 +92,6 @@ class _DashboardState extends State<Dashboard> {
       Get.find<UserController>().setPoints(points);
       Get.find<UserController>().setAvatar(avatar);
     }
-
   }
 
   void _onItemTapped(int index) {

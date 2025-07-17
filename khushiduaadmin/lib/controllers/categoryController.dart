@@ -69,5 +69,9 @@ class CategoryController extends GetxController {
      CategoryService().getAllSubCategories();
    }
 
+   editSubCategory(SubCategoryModel subCategoryModel, File? subCatImage) async{
+     await CategoryService().editSubCategory(subCategoryModel,subCatImage);
+   }
+
 
 }

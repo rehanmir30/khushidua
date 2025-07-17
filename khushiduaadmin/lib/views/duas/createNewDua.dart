@@ -10,6 +10,7 @@ import 'package:khushiduaadmin/models/duaModel.dart';
 
 import '../../constants/colors.dart';
 import '../../models/subCategoryModel.dart';
+import '../../widgets/customDropDown.dart';
 import '../../widgets/customLoading.dart';
 import '../../widgets/customSnackbar.dart';
 import '../../widgets/topBar.dart';
@@ -49,8 +50,8 @@ class _CreateNewDuaState extends State<CreateNewDua> {
   bool isOlderKids = true;
   bool isGrownUps = true;
 
-  html.File? duaImage;
-  String? duaImageUrl;
+  // html.File? duaImage;
+  // String? duaImageUrl;
 
   html.File? littleKidmp3File;
   html.File? olderKidmp3File;
@@ -58,23 +59,23 @@ class _CreateNewDuaState extends State<CreateNewDua> {
 
   List<SubCategoryModel> selectedSubCategories = [];
 
-  void pickImage() {
-    final html.FileUploadInputElement input = html.FileUploadInputElement();
-    input.accept = 'image/*';
-    input.click();
-
-    input.onChange.listen((event) {
-      if (input.files!.isNotEmpty) {
-        final file = input.files!.first;
-        final objectUrl = html.Url.createObjectUrl(file);
-
-        setState(() {
-          duaImage = file;
-          duaImageUrl = objectUrl;
-        });
-      }
-    });
-  }
+  // void pickImage() {
+  //   final html.FileUploadInputElement input = html.FileUploadInputElement();
+  //   input.accept = 'image/*';
+  //   input.click();
+  //
+  //   input.onChange.listen((event) {
+  //     if (input.files!.isNotEmpty) {
+  //       final file = input.files!.first;
+  //       final objectUrl = html.Url.createObjectUrl(file);
+  //
+  //       setState(() {
+  //         duaImage = file;
+  //         duaImageUrl = objectUrl;
+  //       });
+  //     }
+  //   });
+  // }
 
   void pickMp3File(String type) {
     final html.FileUploadInputElement input = html.FileUploadInputElement();
@@ -102,6 +103,7 @@ class _CreateNewDuaState extends State<CreateNewDua> {
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -156,51 +158,51 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.05,
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                    "Image",
-                                                    style: TextStyle(color: rHint),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      pickImage();
-                                                    },
-                                                    child: duaImage != null
-                                                        ? Container(
-                                                      width: 60,
-                                                      height: 60,
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        child: Image.network(duaImageUrl!, fit: BoxFit.fill),
-                                                      ),
-                                                    ).marginOnly(top: 20)
-                                                        : DottedBorder(
-                                                        color: rHint,
-                                                        radius: Radius.circular(8),
-                                                        borderType: BorderType.Rect,
-                                                        dashPattern: [8, 4],
-                                                        child: Container(
-                                                          width: 60,
-                                                          height: 60,
-                                                          alignment: Alignment.center,
-                                                          child: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            children: [
-                                                              SvgPicture.asset("assets/svgs/upload.svg"),
-                                                            ],
-                                                          ),
-                                                        )).marginOnly(top: 20),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
+                                          // Row(
+                                          //   children: [
+                                          //     SizedBox(
+                                          //       width: MediaQuery.of(context).size.width * 0.05,
+                                          //     ),
+                                          //     Column(
+                                          //       children: [
+                                          //         Text(
+                                          //           "Image",
+                                          //           style: TextStyle(color: rHint),
+                                          //         ),
+                                          //         InkWell(
+                                          //           onTap: () {
+                                          //             pickImage();
+                                          //           },
+                                          //           child: duaImage != null
+                                          //               ? Container(
+                                          //             width: 60,
+                                          //             height: 60,
+                                          //             child: ClipRRect(
+                                          //               borderRadius: BorderRadius.circular(10),
+                                          //               child: Image.network(duaImageUrl!, fit: BoxFit.fill),
+                                          //             ),
+                                          //           ).marginOnly(top: 20)
+                                          //               : DottedBorder(
+                                          //               color: rHint,
+                                          //               radius: Radius.circular(8),
+                                          //               borderType: BorderType.Rect,
+                                          //               dashPattern: [8, 4],
+                                          //               child: Container(
+                                          //                 width: 60,
+                                          //                 height: 60,
+                                          //                 alignment: Alignment.center,
+                                          //                 child: Column(
+                                          //                   mainAxisSize: MainAxisSize.min,
+                                          //                   children: [
+                                          //                     SvgPicture.asset("assets/svgs/upload.svg"),
+                                          //                   ],
+                                          //                 ),
+                                          //               )).marginOnly(top: 20),
+                                          //         ),
+                                          //       ],
+                                          //     )
+                                          //   ],
+                                          // ),
                                           Text(
                                             "Dua (English)",
                                             style: TextStyle(color: rHint),
@@ -608,75 +610,80 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                               color: Colors.white,
                                             ),
                                           ),
+
                                           Text(
                                             "Sub Categories",
                                             style: TextStyle(color: rHint),
                                           ).marginOnly(top: 20),
-                                          SizedBox(
-                                            // width: MediaQuery.of(context).size.width * 0.25,
-                                            child: Theme(
-                                              data: Theme.of(context).copyWith(
-                                                canvasColor: rBlack,
-                                              ),
-                                              child: DropdownButtonFormField<SubCategoryModel>(
-                                                decoration: InputDecoration(
-                                                  filled: true,
-                                                  fillColor: Colors.transparent,
-                                                  hintText: selectedSubCategories.isEmpty ? 'Select sub categories' : selectedSubCategories.map((item) => item.english).join(', '),
-                                                  suffixIcon: Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-                                                  hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
-                                                  border: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                  ),
-                                                  enabledBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(color: Colors.grey),
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                  ),
-                                                  focusedBorder: OutlineInputBorder(
-                                                    borderSide: BorderSide(color: Colors.grey),
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                  ),
-                                                  contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                                                ),
-                                                icon: SizedBox.shrink(),
-                                                items: categoryController.allSubCategories.map((SubCategoryModel item) {
-                                                  return DropdownMenuItem<SubCategoryModel>(
-                                                    value: item,
-                                                    child: StatefulBuilder(
-                                                      builder: (context, menuSetState) {
-                                                        final isSelected = selectedSubCategories.contains(item);
-                                                        return InkWell(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              isSelected ? selectedSubCategories.remove(item) : selectedSubCategories.add(item);
-                                                            });
-                                                            menuSetState(() {});
-                                                          },
-                                                          child: SizedBox(
-                                                            height: 40,
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(
-                                                                  isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-                                                                  color: isSelected ? Colors.green : Colors.grey,
-                                                                ),
-                                                                const SizedBox(width: 16),
-                                                                Text(
-                                                                  item.english,
-                                                                  style: TextStyle(fontSize: 14, color: rWhite),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                                onChanged: (_) {},
-                                              ),
-                                            ),
-                                          ),
+                                          // SizedBox(
+                                          //   child: Theme(
+                                          //     data: Theme.of(context).copyWith(
+                                          //       canvasColor: rBlack,
+                                          //     ),
+                                          //     child: DropdownButtonFormField<SubCategoryModel>(
+                                          //       decoration: InputDecoration(
+                                          //         filled: true,
+                                          //         fillColor: Colors.transparent,
+                                          //         hintText: selectedSubCategories.isEmpty ? 'Select sub categories' : selectedSubCategories.map((item) => item.english).join(', '),
+                                          //         suffixIcon: Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+                                          //         hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
+                                          //         border: OutlineInputBorder(
+                                          //           borderRadius: BorderRadius.circular(8.0),
+                                          //         ),
+                                          //         enabledBorder: OutlineInputBorder(
+                                          //           borderSide: BorderSide(color: Colors.grey),
+                                          //           borderRadius: BorderRadius.circular(8.0),
+                                          //         ),
+                                          //         focusedBorder: OutlineInputBorder(
+                                          //           borderSide: BorderSide(color: Colors.grey),
+                                          //           borderRadius: BorderRadius.circular(8.0),
+                                          //         ),
+                                          //         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                                          //       ),
+                                          //       icon: SizedBox.shrink(),
+                                          //       items: categoryController.allSubCategories.map((SubCategoryModel item) {
+                                          //         return DropdownMenuItem<SubCategoryModel>(
+                                          //           value: item,
+                                          //           child: StatefulBuilder(
+                                          //             builder: (context, menuSetState) {
+                                          //               final isSelected = selectedSubCategories.contains(item);
+                                          //               return InkWell(
+                                          //                 onTap: () {
+                                          //                   setState(() {
+                                          //                     isSelected ? selectedSubCategories.remove(item) : selectedSubCategories.add(item);
+                                          //                   });
+                                          //                   menuSetState(() {});
+                                          //                 },
+                                          //                 child: SizedBox(
+                                          //                   height: 40,
+                                          //                   child: Row(
+                                          //                     children: [
+                                          //                       Icon(
+                                          //                         isSelected ? Icons.check_box : Icons.check_box_outline_blank,
+                                          //                         color: isSelected ? Colors.green : Colors.grey,
+                                          //                       ),
+                                          //                       const SizedBox(width: 16),
+                                          //                       Text(
+                                          //                         item.english,
+                                          //                         style: TextStyle(fontSize: 14, color: rWhite),
+                                          //                       ),
+                                          //                     ],
+                                          //                   ),
+                                          //                 ),
+                                          //               );
+                                          //             },
+                                          //           ),
+                                          //         );
+                                          //       }).toList(),
+                                          //       onChanged: (_) {},
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                      SearchableMultiSelectDropdown(
+                                           items: categoryController.allSubCategories,
+                                           initiallySelected: selectedSubCategories,
+                                           onChanged: (list) => setState(() => selectedSubCategories = list),
+                                         ),
 
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1461,9 +1468,10 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                 child: InkWell(
                                   onTap: () async {
                                     if (formKey.currentState!.validate()) {
-                                      if (duaImage == null) {
-                                        CustomSnackbar.show("Error", "Dua image is required", isSuccess: false);
-                                      }else if(littleKidmp3File==null || olderKidmp3File==null ||grownUpmp3File==null){
+                                      // if (duaImage == null) {
+                                      //   CustomSnackbar.show("Error", "Dua image is required", isSuccess: false);
+                                      // }else
+                                        if(littleKidmp3File==null || olderKidmp3File==null ||grownUpmp3File==null){
                                         CustomSnackbar.show("Error", "Audio files are required", isSuccess: false);
                                       }else if(selectedSubCategories.isEmpty){
                                         CustomSnackbar.show("Error", "Select atleast one sub category", isSuccess: false);
@@ -1475,7 +1483,7 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                         DuaModel duaModel = DuaModel(
                                             id: "",
                                             createdAt: DateTime.now(),
-                                            image: "",
+                                            // image: "",
                                             arabic: arabicTextEditingController.text,
                                             bengali: bengaliTextEditingController.text,
                                             transliteration: transliterationTextEditingController.text,
@@ -1509,7 +1517,9 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                             littleKidsAudio: '',
                                             olderKidsAudio: '');
 
-                                        duaController.createDua(duaModel, duaImage!,grownUpmp3File!,littleKidmp3File!,olderKidmp3File!);
+                                        duaController.createDua(duaModel,
+                                            // duaImage!,
+                                            grownUpmp3File!,littleKidmp3File!,olderKidmp3File!);
                                       }
                                     } else {
                                       return;
