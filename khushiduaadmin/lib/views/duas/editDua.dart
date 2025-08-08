@@ -1,28 +1,30 @@
-import 'dart:html' as html;
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:khushiduaadmin/controllers/categoryController.dart';
-import 'package:khushiduaadmin/controllers/duaController.dart';
-import 'package:khushiduaadmin/models/duaModel.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'dart:html' as html;
 
 import '../../constants/colors.dart';
+import '../../controllers/categoryController.dart';
+import '../../controllers/duaController.dart';
+import '../../models/duaModel.dart';
 import '../../models/subCategoryModel.dart';
 import '../../widgets/customDropDown.dart';
 import '../../widgets/customLoading.dart';
 import '../../widgets/customSnackbar.dart';
 import '../../widgets/topBar.dart';
 
-class CreateNewDua extends StatefulWidget {
-  const CreateNewDua({super.key});
+class EditDua extends StatefulWidget {
+  DuaModel duaModel;
+  EditDua({super.key,required this.duaModel});
 
   @override
-  State<CreateNewDua> createState() => _CreateNewDuaState();
+  State<EditDua> createState() => _EditDuaState();
 }
 
-class _CreateNewDuaState extends State<CreateNewDua> {
+class _EditDuaState extends State<EditDua> {
+
   var formKey = GlobalKey<FormState>();
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController bengaliTextEditingController = TextEditingController();
@@ -53,8 +55,57 @@ class _CreateNewDuaState extends State<CreateNewDua> {
   html.File? littleKidmp3File;
   html.File? olderKidmp3File;
   html.File? grownUpmp3File;
+  html.File? englishmp3File;
+  html.File? urdump3File;
+
+  String littleKidsAudio="";
+  String olderKidsAudio="";
+  String grownUpsKidsAudio="";
+  String englishTranslationAudio="";
+  String urduTranslationAudio="";
+
 
   List<SubCategoryModel> selectedSubCategories = [];
+
+
+  @override
+  void initState() {
+    arabicTextEditingController.text=widget.duaModel.arabic;
+    bengaliTextEditingController.text=widget.duaModel.bengali;
+    transliterationTextEditingController.text=widget.duaModel.transliteration;
+    englishTextEditingController.text=widget.duaModel.english;
+    frenchTextEditingController.text=widget.duaModel.french;
+    germanTextEditingController.text=widget.duaModel.german;
+    gujratiTextEditingController.text=widget.duaModel.gujrati;
+    hindiTextEditingController.text=widget.duaModel.hindi;
+    indonesianTextEditingController.text=widget.duaModel.indonesian;
+    japaneseTextEditingController.text=widget.duaModel.japanese;
+    malayTextEditingController.text=widget.duaModel.malay;
+    mandrainTextEditingController.text=widget.duaModel.mandrain;
+    marathiTextEditingController.text=widget.duaModel.marathi;
+    portugeseTextEditingController.text=widget.duaModel.portugese;
+    punjabiTextEditingController.text=widget.duaModel.punjabi;
+    russianTextEditingController.text=widget.duaModel.russian;
+    sindhiTextEditingController.text=widget.duaModel.sindhi;
+    spanishTextEditingController.text=widget.duaModel.spanish;
+    tamilTextEditingController.text=widget.duaModel.tamil;
+    telguTextEditingController.text=widget.duaModel.telgu;
+    turkishTextEditingController.text=widget.duaModel.turkish;
+    urduTextEditingController.text=widget.duaModel.urdu;
+    littleKidsAudio=widget.duaModel.littleKidsAudio;
+    olderKidsAudio=widget.duaModel.olderKidsAudio;
+    grownUpsKidsAudio=widget.duaModel.grownUpsAudio;
+
+    isLittleKids=widget.duaModel.littleKids;
+    isOlderKids=widget.duaModel.olderKids;
+    isGrownUps=widget.duaModel.grownUps;
+
+    selectedSubCategories=Get.find<CategoryController>().allSubCategories.where((subCat) => widget.duaModel.subCategoryIds.contains(subCat.id)).toList();
+    setState(() {
+
+    });
+  }
+
 
   void pickMp3File(String type) {
     final html.FileUploadInputElement input = html.FileUploadInputElement();
@@ -73,7 +124,17 @@ class _CreateNewDuaState extends State<CreateNewDua> {
           setState(() {
             olderKidmp3File;
           });
-        } else {
+        } else if(type=="englishTranslation"){
+          englishmp3File = input.files!.first;
+          setState(() {
+            englishmp3File;
+          });
+        }else if(type=="urduTranslation"){
+          urdump3File = input.files!.first;
+          setState(() {
+            urdump3File;
+          });
+        }else {
           grownUpmp3File = input.files!.first;
           setState(() {
             grownUpmp3File;
@@ -82,7 +143,6 @@ class _CreateNewDuaState extends State<CreateNewDua> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +159,7 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                     children: [
                       TopBar(title: "Dua"),
                       Text(
-                        "Add New Dua",
+                        "Edit Dua",
                         style: TextStyle(color: rWhite, fontSize: 20),
                       ).marginOnly(top: 20),
                       Row(
@@ -112,7 +172,7 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                             ),
                           ),
                           Text(
-                            "add new dua",
+                            "edit dua",
                             style: TextStyle(color: rWhite),
                           ),
                         ],
@@ -137,51 +197,7 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          // Row(
-                                          //   children: [
-                                          //     SizedBox(
-                                          //       width: MediaQuery.of(context).size.width * 0.05,
-                                          //     ),
-                                          //     Column(
-                                          //       children: [
-                                          //         Text(
-                                          //           "Image",
-                                          //           style: TextStyle(color: rHint),
-                                          //         ),
-                                          //         InkWell(
-                                          //           onTap: () {
-                                          //             pickImage();
-                                          //           },
-                                          //           child: duaImage != null
-                                          //               ? Container(
-                                          //             width: 60,
-                                          //             height: 60,
-                                          //             child: ClipRRect(
-                                          //               borderRadius: BorderRadius.circular(10),
-                                          //               child: Image.network(duaImageUrl!, fit: BoxFit.fill),
-                                          //             ),
-                                          //           ).marginOnly(top: 20)
-                                          //               : DottedBorder(
-                                          //               color: rHint,
-                                          //               radius: Radius.circular(8),
-                                          //               borderType: BorderType.Rect,
-                                          //               dashPattern: [8, 4],
-                                          //               child: Container(
-                                          //                 width: 60,
-                                          //                 height: 60,
-                                          //                 alignment: Alignment.center,
-                                          //                 child: Column(
-                                          //                   mainAxisSize: MainAxisSize.min,
-                                          //                   children: [
-                                          //                     SvgPicture.asset("assets/svgs/upload.svg"),
-                                          //                   ],
-                                          //                 ),
-                                          //               )).marginOnly(top: 20),
-                                          //         ),
-                                          //       ],
-                                          //     )
-                                          //   ],
-                                          // ),
+
                                           Text(
                                             "Dua (English)",
                                             style: TextStyle(color: rHint),
@@ -594,75 +610,11 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                             "Sub Categories",
                                             style: TextStyle(color: rHint),
                                           ).marginOnly(top: 20),
-                                          // SizedBox(
-                                          //   child: Theme(
-                                          //     data: Theme.of(context).copyWith(
-                                          //       canvasColor: rBlack,
-                                          //     ),
-                                          //     child: DropdownButtonFormField<SubCategoryModel>(
-                                          //       decoration: InputDecoration(
-                                          //         filled: true,
-                                          //         fillColor: Colors.transparent,
-                                          //         hintText: selectedSubCategories.isEmpty ? 'Select sub categories' : selectedSubCategories.map((item) => item.english).join(', '),
-                                          //         suffixIcon: Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-                                          //         hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
-                                          //         border: OutlineInputBorder(
-                                          //           borderRadius: BorderRadius.circular(8.0),
-                                          //         ),
-                                          //         enabledBorder: OutlineInputBorder(
-                                          //           borderSide: BorderSide(color: Colors.grey),
-                                          //           borderRadius: BorderRadius.circular(8.0),
-                                          //         ),
-                                          //         focusedBorder: OutlineInputBorder(
-                                          //           borderSide: BorderSide(color: Colors.grey),
-                                          //           borderRadius: BorderRadius.circular(8.0),
-                                          //         ),
-                                          //         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                                          //       ),
-                                          //       icon: SizedBox.shrink(),
-                                          //       items: categoryController.allSubCategories.map((SubCategoryModel item) {
-                                          //         return DropdownMenuItem<SubCategoryModel>(
-                                          //           value: item,
-                                          //           child: StatefulBuilder(
-                                          //             builder: (context, menuSetState) {
-                                          //               final isSelected = selectedSubCategories.contains(item);
-                                          //               return InkWell(
-                                          //                 onTap: () {
-                                          //                   setState(() {
-                                          //                     isSelected ? selectedSubCategories.remove(item) : selectedSubCategories.add(item);
-                                          //                   });
-                                          //                   menuSetState(() {});
-                                          //                 },
-                                          //                 child: SizedBox(
-                                          //                   height: 40,
-                                          //                   child: Row(
-                                          //                     children: [
-                                          //                       Icon(
-                                          //                         isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-                                          //                         color: isSelected ? Colors.green : Colors.grey,
-                                          //                       ),
-                                          //                       const SizedBox(width: 16),
-                                          //                       Text(
-                                          //                         item.english,
-                                          //                         style: TextStyle(fontSize: 14, color: rWhite),
-                                          //                       ),
-                                          //                     ],
-                                          //                   ),
-                                          //                 ),
-                                          //               );
-                                          //             },
-                                          //           ),
-                                          //         );
-                                          //       }).toList(),
-                                          //       onChanged: (_) {},
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                      SearchableMultiSelectDropdown(
-                                           items: categoryController.allSubCategories,
-                                           initiallySelected: selectedSubCategories,
-                                           onChanged: (list) => setState(() => selectedSubCategories = list),
-                                         ),
+                                          SearchableMultiSelectDropdown(
+                                            items: categoryController.allSubCategories,
+                                            initiallySelected: selectedSubCategories,
+                                            onChanged: (list) => setState(() => selectedSubCategories = list),
+                                          ),
 
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -853,6 +805,84 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "English Translation",
+                                                style: TextStyle(color: rHint),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  pickMp3File("englishTranslation");
+                                                },
+                                                child: DottedBorder(
+                                                    color: rHint,
+                                                    radius: Radius.circular(8),
+                                                    borderType: BorderType.RRect,
+                                                    dashPattern: [8, 4],
+                                                    child: Container(
+                                                      // width: 60,
+                                                      height: 100,
+                                                      alignment: Alignment.center,
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          englishmp3File == null
+                                                              ? SvgPicture.asset("assets/svgs/upload.svg")
+                                                              : Icon(
+                                                            Icons.file_copy_outlined,
+                                                            color: rHint,
+                                                          ),
+                                                          Text(
+                                                            englishmp3File == null ? "Upload Audio Sound" : "${englishmp3File!.name}",
+                                                            style: TextStyle(color: rHint, fontWeight: FontWeight.w600, fontSize: 14),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
+                                              ),
+                                            ],
+                                          ).marginOnly(top: 20),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Urdu Translation",
+                                                style: TextStyle(color: rHint),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  pickMp3File("urduTranslation");
+                                                },
+                                                child: DottedBorder(
+                                                    color: rHint,
+                                                    radius: Radius.circular(8),
+                                                    borderType: BorderType.RRect,
+                                                    dashPattern: [8, 4],
+                                                    child: Container(
+                                                      // width: 60,
+                                                      height: 100,
+                                                      alignment: Alignment.center,
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          urdump3File == null
+                                                              ? SvgPicture.asset("assets/svgs/upload.svg")
+                                                              : Icon(
+                                                            Icons.file_copy_outlined,
+                                                            color: rHint,
+                                                          ),
+                                                          Text(
+                                                            urdump3File == null ? "Upload Audio Sound" : "${urdump3File!.name}",
+                                                            style: TextStyle(color: rHint, fontWeight: FontWeight.w600, fontSize: 14),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
+                                              ),
+                                            ],
+                                          ).marginOnly(top: 20),
                                           Text(
                                             "Dua (Japanese)",
                                             style: TextStyle(color: rHint),
@@ -1447,12 +1477,7 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                 child: InkWell(
                                   onTap: () async {
                                     if (formKey.currentState!.validate()) {
-                                      // if (duaImage == null) {
-                                      //   CustomSnackbar.show("Error", "Dua image is required", isSuccess: false);
-                                      // }else
-                                        if(littleKidmp3File==null || olderKidmp3File==null ||grownUpmp3File==null){
-                                        CustomSnackbar.show("Error", "Audio files are required", isSuccess: false);
-                                      }else if(selectedSubCategories.isEmpty){
+                                       if(selectedSubCategories.isEmpty){
                                         CustomSnackbar.show("Error", "Select atleast one sub category", isSuccess: false);
                                       } else {
                                         List<String> subIds=[];
@@ -1460,9 +1485,8 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                           subIds.add(item.id);
                                         }
                                         DuaModel duaModel = DuaModel(
-                                            id: "",
-                                            createdAt: DateTime.now(),
-                                            // image: "",
+                                            id: widget.duaModel.id,
+                                            createdAt: widget.duaModel.createdAt,
                                             arabic: arabicTextEditingController.text,
                                             bengali: bengaliTextEditingController.text,
                                             transliteration: transliterationTextEditingController.text,
@@ -1492,13 +1516,15 @@ class _CreateNewDuaState extends State<CreateNewDua> {
                                             littleKids: isLittleKids,
                                             olderKids: isOlderKids,
                                             subCategoryIds: subIds,
-                                            grownUpsAudio: '',
-                                            littleKidsAudio: '',
-                                            olderKidsAudio: '');
+                                            grownUpsAudio: widget.duaModel.grownUpsAudio,
+                                            littleKidsAudio: widget.duaModel.littleKidsAudio,
+                                            olderKidsAudio: widget.duaModel.olderKidsAudio,
+                                        englishTranslation: widget.duaModel.englishTranslation,
+                                          urduTranslation: widget.duaModel.urduTranslation
+                                        );
 
-                                        duaController.createDua(duaModel,
-                                            // duaImage!,
-                                            grownUpmp3File!,littleKidmp3File!,olderKidmp3File!);
+                                        duaController.updateDua(duaModel,
+                                            grownUpmp3File,littleKidmp3File,olderKidmp3File,englishmp3File,urdump3File);
                                       }
                                     } else {
                                       return;

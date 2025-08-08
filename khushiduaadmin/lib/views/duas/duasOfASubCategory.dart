@@ -9,6 +9,7 @@ import '../../constants/firebaseRef.dart';
 import '../../controllers/duaController.dart';
 import '../../models/duaModel.dart';
 import '../../widgets/topBar.dart';
+import 'editDua.dart';
 
 class DuasOfASubCategory extends StatefulWidget {
   SubCategoryModel model;
@@ -169,7 +170,7 @@ class _DuaTileState extends State<DuaTile> {
             flex: 1,
             child: InkWell(
               onTap: () {
-                // Get.to(EditCategory(model: widget.categoryModel));
+                Get.to(EditDua(duaModel: widget.duaModel));
               },
               child: Align(alignment: Alignment.centerLeft, child: SvgPicture.asset("assets/svgs/eye.svg")),
             )),

@@ -6,6 +6,7 @@ import 'package:khushiduaadmin/constants/firebaseRef.dart';
 import 'package:khushiduaadmin/controllers/duaController.dart';
 import 'package:khushiduaadmin/models/duaModel.dart';
 import 'package:khushiduaadmin/views/duas/createNewDua.dart';
+import 'package:khushiduaadmin/views/duas/editDua.dart';
 
 import '../../constants/colors.dart';
 import '../../widgets/topBar.dart';
@@ -320,7 +321,7 @@ class _DuaTileState extends State<DuaTile> {
             flex: 1,
             child: InkWell(
               onTap: () {
-                // Get.to(EditCategory(model: widget.categoryModel));
+                Get.to(EditDua(duaModel: widget.duaModel));
               },
               child: Align(alignment: Alignment.centerLeft, child: SvgPicture.asset("assets/svgs/eye.svg")),
             )),

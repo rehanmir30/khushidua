@@ -13,7 +13,6 @@ import '../views/blockedScreen.dart';
 class AuthService {
   UserController _userController = Get.find<UserController>();
 
-
   Future<String> getFCMToken() async {
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     String? token = await _firebaseMessaging.getToken();

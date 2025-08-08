@@ -29,9 +29,8 @@ class DuaService{
      duaModel.id=await duaRef.doc().id;
      try{
        duaModel.olderKidsAudio=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/olderKidsAudio"))!;
-       duaModel.littleKidsAudio=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/littleKidsAudio"))!;
-       duaModel.grownUpsAudio=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/grownUpsAudio"))!;
-       // duaModel.image=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/image"))!;
+       duaModel.littleKidsAudio=(await uploadFileToFirebase(littleKidmp3File, "${duaModel.id}/littleKidsAudio"))!;
+       duaModel.grownUpsAudio=(await uploadFileToFirebase(grownUpmp3File, "${duaModel.id}/grownUpsAudio"))!;
        duaRef.doc(duaModel.id).set(duaModel.toMap());
        _duaController.setLoading(false);
        Get.back();
@@ -41,6 +40,29 @@ class DuaService{
        CustomSnackbar.show("Error", "Something went wrong", isSuccess: false);
        return false;
      }
+   }
+   updateDua(DuaModel duaModel, File? grownUpmp3File, File? littleKidmp3File, File? olderKidmp3File,File? englishTrans, File? urduTrans)async{
+     _duaController.setLoading(true);
+     if(grownUpmp3File!=null){
+       duaModel.grownUpsAudio=(await uploadFileToFirebase(grownUpmp3File, "${duaModel.id}/grownUpsAudio"))!;
+     }
+     if(littleKidmp3File!=null){
+       duaModel.littleKidsAudio=(await uploadFileToFirebase(littleKidmp3File, "${duaModel.id}/littleKidsAudio"))!;
+     }
+     if(olderKidmp3File!=null){
+       duaModel.olderKidsAudio=(await uploadFileToFirebase(olderKidmp3File, "${duaModel.id}/olderKidsAudio"))!;
+     }
+     if(englishTrans!=null){
+       duaModel.englishTranslation=(await uploadFileToFirebase(englishTrans, "${duaModel.id}/englishTransAudio"))!;
+     }
+     if(urduTrans!=null){
+       duaModel.urduTranslation=(await uploadFileToFirebase(urduTrans, "${duaModel.id}/urduTransAudio"))!;
+     }
+
+     await duaRef.doc(duaModel.id).update(duaModel.toMap());
+     _duaController.setLoading(false);
+     Get.back();
+     CustomSnackbar.show("Success", "Dua updated successfully");
    }
 
   Future<String?> uploadFileToFirebase(File file, String path) async {

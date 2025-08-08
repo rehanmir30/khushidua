@@ -36,4 +36,8 @@ class DuaController extends GetxController {
   createDua(DuaModel duaModel, File grownUpmp3File, File littleKidmp3File, File olderKidmp3File) {
     DuaService().createDua(duaModel,grownUpmp3File,littleKidmp3File,olderKidmp3File);
   }
+
+  updateDua(DuaModel duaModel, File? grownUpmp3File, File? littleKidmp3File, File? olderKidmp3File,File? englishTrans,File? urduTrans) {
+    DuaService().updateDua(duaModel,grownUpmp3File,littleKidmp3File,olderKidmp3File,englishTrans,urduTrans);
+  }
 }

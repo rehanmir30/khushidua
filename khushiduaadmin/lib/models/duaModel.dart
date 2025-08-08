@@ -34,6 +34,8 @@ class DuaModel{
   String littleKidsAudio="";
   String olderKidsAudio="";
   String grownUpsAudio="";
+  String? englishTranslation="";
+  String? urduTranslation='';
 
 
   DuaModel({
@@ -70,7 +72,9 @@ class DuaModel{
     required this.olderKids,
     required this.grownUpsAudio,
     required this.littleKidsAudio,
-    required this.olderKidsAudio
+    required this.olderKidsAudio,
+    this.englishTranslation,
+    this.urduTranslation
   });
 
   factory DuaModel.fromMap(Map<String, dynamic> map) {
@@ -147,7 +151,9 @@ class DuaModel{
       "littleKids":littleKids,
       "grownUpsAudio":grownUpsAudio,
       "littleKidsAudio":littleKidsAudio,
-      "olderKidsAudio":olderKidsAudio
+      "olderKidsAudio":olderKidsAudio,
+      "englishTranslation":englishTranslation,
+      "urduTranslation":urduTranslation
     };
   }
 
