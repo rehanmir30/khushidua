@@ -5,12 +5,14 @@ import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 // import 'package:ffmpeg_kit_flutter_full/ffmpeg_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_sound_record/flutter_sound_record.dart';
+
+// import 'package:flutter_sound_record/flutter_sound_record.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -47,7 +49,6 @@ class _OpenDuasScreenState extends State<OpenDuasScreen> {
     });
   }
 
-
   @override
   void dispose() {
     _audioPlayer.dispose();
@@ -56,10 +57,10 @@ class _OpenDuasScreenState extends State<OpenDuasScreen> {
 
   Future<void> markDuaAsDone(String duaId) async {
     try {
-      if(!Get.find<UserController>().userModel!.readDuas.contains(duaId)){
+      if (!Get.find<UserController>().userModel!.readDuas.contains(duaId)) {
         userRef.doc(Get.find<UserController>().userModel!.id).update({
-          "readDuas":FieldValue.arrayUnion([duaId]),
-          "points":Get.find<UserController>().userModel!.points+50
+          "readDuas": FieldValue.arrayUnion([duaId]),
+          "points": Get.find<UserController>().userModel!.points + 50,
         });
       }
     } catch (e) {
@@ -85,100 +86,125 @@ class _OpenDuasScreenState extends State<OpenDuasScreen> {
         setState(() {
           _currentlyPlayingPath = null;
         });
-        if(Get.find<UserController>().userModel?.isLoggedIn??false){
+        if (Get.find<UserController>().userModel?.isLoggedIn ?? false) {
           markDuaAsDone(duaId);
         }
-
       });
     }
   }
 
   void showTextOptionsPopup() {
-
     showDialog(
       context: context,
       builder: (context) {
-        return StatefulBuilder(builder: (context, setState) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            contentPadding: const EdgeInsets.all(20),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            content: GetBuilder<ThemeController>(
-              builder: (themeController){
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Preview Section
-                      Text(
-                        'اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ',
-                        style: TextStyle(fontSize: themeController.textSize, color: Colors.white, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 12),
-                      if (themeController.showTransliteration)
-                        Text(
-                          'Allahumma ajirni min an-naar',
-                          style: TextStyle(fontSize: themeController.textSize, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      if (themeController.showTranslation)
-                        Text(
-                          'O Allah, save me from the Hellfire.',
-                          style: TextStyle(fontSize: themeController.textSize, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      const Divider(height: 30, color: Colors.grey),
-
-                      // Font Size Slider
-                      Row(
-                        children: [
-                          Text('Font Size', style: TextStyle(color: Colors.white)),
-                          Expanded(
-                            child: Slider(
-                              value: themeController.textSize,
-                              min: 14,
-                              max: 27,
-                              divisions: 13,
-                              label: themeController.textSize.round().toString(),
-                              onChanged: (value) => themeController.setTextSize(value),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      // English 1 Toggle
-                      SwitchListTile(
-                        title: Text("Show transliteration", style: TextStyle(color: Colors.white)),
-                        value: themeController.showTransliteration,
-                        onChanged: (val) => themeController.setShowTransliteration(val),
-                        activeColor: Colors.green,
-                      ),
-
-                      // English 2 Toggle
-                      SwitchListTile(
-                        title: Text("Show translation", style: TextStyle(color: Colors.white)),
-                        value: themeController.showTranslation,
-                        onChanged: (val) => themeController.setShowTranslation(val),
-                        activeColor: Colors.green,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Close', style: TextStyle(color: Colors.white)),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Colors.black,
+              contentPadding: const EdgeInsets.all(20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-            ],
-          );
-        });
+              content: GetBuilder<ThemeController>(
+                builder: (themeController) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Preview Section
+                        Text(
+                          'اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ',
+                          style: TextStyle(
+                            fontSize: themeController.textSize,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 12),
+                        if (themeController.showTransliteration)
+                          Text(
+                            'Allahumma ajirni min an-naar',
+                            style: TextStyle(
+                              fontSize: themeController.textSize,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        if (themeController.showTranslation)
+                          Text(
+                            'O Allah, save me from the Hellfire.',
+                            style: TextStyle(
+                              fontSize: themeController.textSize,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        const Divider(height: 30, color: Colors.grey),
+
+                        // Font Size Slider
+                        Row(
+                          children: [
+                            Text(
+                              'Font Size',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Expanded(
+                              child: Slider(
+                                value: themeController.textSize,
+                                min: 14,
+                                max: 27,
+                                divisions: 13,
+                                label: themeController.textSize
+                                    .round()
+                                    .toString(),
+                                onChanged: (value) =>
+                                    themeController.setTextSize(value),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // English 1 Toggle
+                        SwitchListTile(
+                          title: Text(
+                            "Show transliteration",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          value: themeController.showTransliteration,
+                          onChanged: (val) =>
+                              themeController.setShowTransliteration(val),
+                          activeColor: Colors.green,
+                        ),
+
+                        // English 2 Toggle
+                        SwitchListTile(
+                          title: Text(
+                            "Show translation",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          value: themeController.showTranslation,
+                          onChanged: (val) =>
+                              themeController.setShowTranslation(val),
+                          activeColor: Colors.green,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Close', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -186,10 +212,14 @@ class _OpenDuasScreenState extends State<OpenDuasScreen> {
       appBar: AppBar(
         actions: [
           InkWell(
-              onTap: (){
-                showTextOptionsPopup();
-              },
-              child: Icon(Icons.text_fields_outlined,color:rblack).marginOnly(right: 20))
+            onTap: () {
+              showTextOptionsPopup();
+            },
+            child: Icon(
+              Icons.text_fields_outlined,
+              color: rblack,
+            ).marginOnly(right: 20),
+          ),
         ],
       ),
       body: GetBuilder<DuaController>(
@@ -227,11 +257,11 @@ class DuaTile extends StatefulWidget {
 }
 
 class _DuaTileState extends State<DuaTile> {
-  final FlutterSoundRecord _recorder = FlutterSoundRecord();
+  // final FlutterSoundRecord _recorder = FlutterSoundRecord();
   bool _isRecording = false;
   String? _recordedPath;
 
-  String baseUrl="";
+  String baseUrl = "";
 
   final List<String> imagePaths = [
     'assets/images/1.png',
@@ -243,16 +273,15 @@ class _DuaTileState extends State<DuaTile> {
   late String randomImage;
   final GlobalKey _popupKey = GlobalKey();
 
-
   @override
   void initState() {
     randomImage = imagePaths[Random().nextInt(imagePaths.length)];
     getBaseUrl();
   }
 
-  getBaseUrl()async{
-  await  sysConfigRef.doc("MemoizationURL").get().then((value) {
-      baseUrl=value.data()!["URL"];
+  getBaseUrl() async {
+    await sysConfigRef.doc("MemoizationURL").get().then((value) {
+      baseUrl = value.data()!["URL"];
     });
     print(baseUrl);
   }
@@ -312,35 +341,35 @@ class _DuaTileState extends State<DuaTile> {
             }
 
             Future<void> toggleRecording() async {
-              if (_isRecording) {
-                final path = await _recorder.stop();
-                setState(() => _isRecording = false);
-                if (path != null) {
-                  _recordedPath = path;
-                  String? mp3Path = await convertAacToMp3(_recordedPath!);
-                  print("Recording complete: $mp3Path");
-                  _recordedPath = mp3Path;
-                  await sendToApi();
-                }
-              } else {
-                var status = await Permission.microphone.request();
-                if (status.isGranted) {
-                  final hasPermission = await _recorder.hasPermission();
-                  if (hasPermission) {
-                    final dir = await getTemporaryDirectory();
-                    final filePath = p.join(dir.path, '${DateTime.now().millisecondsSinceEpoch}.aac');
-                    await _recorder.start(path: filePath, encoder: AudioEncoder.AAC);
-                    setState(() {
-                      _isRecording = true;
-                      _recordedPath = filePath;
-                    });
-                  }
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Microphone permission is required.")),
-                  );
-                }
-              }
+              // if (_isRecording) {
+              //   final path = await _recorder.stop();
+              //   setState(() => _isRecording = false);
+              //   if (path != null) {
+              //     _recordedPath = path;
+              //     String? mp3Path = await convertAacToMp3(_recordedPath!);
+              //     print("Recording complete: $mp3Path");
+              //     _recordedPath = mp3Path;
+              //     await sendToApi();
+              //   }
+              // } else {
+              //   var status = await Permission.microphone.request();
+              //   if (status.isGranted) {
+              //     final hasPermission = await _recorder.hasPermission();
+              //     if (hasPermission) {
+              //       final dir = await getTemporaryDirectory();
+              //       final filePath = p.join(dir.path, '${DateTime.now().millisecondsSinceEpoch}.aac');
+              //       await _recorder.start(path: filePath, encoder: AudioEncoder.AAC);
+              //       setState(() {
+              //         _isRecording = true;
+              //         _recordedPath = filePath;
+              //       });
+              //     }
+              //   } else {
+              //     ScaffoldMessenger.of(context).showSnackBar(
+              //       SnackBar(content: Text("Microphone permission is required.")),
+              //     );
+              //   }
+              // }
             }
 
             return AlertDialog(
@@ -349,16 +378,22 @@ class _DuaTileState extends State<DuaTile> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Directionality(
-                      textDirection: TextDirection.rtl,
-                      child:
-                          Text(
-                        "${widget.dua.arabic}",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                      )),
+                    textDirection: TextDirection.rtl,
+                    child: Text(
+                      "${widget.dua.arabic}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                   if (_isLoading) CircularProgressIndicator(),
                   if (apiResponse != null) ...[
                     const SizedBox(height: 16),
-                    Text("Response:", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      "Response:",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: Html(data: "${apiResponse}"),
@@ -371,7 +406,9 @@ class _DuaTileState extends State<DuaTile> {
               actions: [
                 TextButton(
                   onPressed: toggleRecording,
-                  child: Text(_isRecording ? "Finish Recording" : "Start Recording"),
+                  child: Text(
+                    _isRecording ? "Finish Recording" : "Start Recording",
+                  ),
                 ),
                 // TextButton(
                 //   onPressed: () async {
@@ -395,7 +432,7 @@ class _DuaTileState extends State<DuaTile> {
                 TextButton(
                   onPressed: () async {
                     if (_isRecording) {
-                      await _recorder.stop();
+                      // await _recorder.stop();
                       setState(() => _isRecording = false);
                     }
                     Navigator.of(context).pop();
@@ -491,11 +528,13 @@ class _DuaTileState extends State<DuaTile> {
                     color: Color(0xff2A158F),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text("📤 Share", style: TextStyle(color: rwhite))
-                      .marginSymmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    "📤 Share",
+                    style: TextStyle(color: rwhite),
+                  ).marginSymmetric(horizontal: 20, vertical: 20),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -504,7 +543,8 @@ class _DuaTileState extends State<DuaTile> {
 
   Future<void> _captureAndShare() async {
     try {
-      RenderRepaintBoundary boundary = _popupKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary =
+          _popupKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       var image = await boundary.toImage(pixelRatio: 3.0);
       ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
@@ -515,114 +555,153 @@ class _DuaTileState extends State<DuaTile> {
       await file.writeAsBytes(pngBytes);
 
       // Share using share_plus
-      await Share.shareXFiles([XFile(file.path)], text: "Check out this beautiful Dua");
-
+      await Share.shareXFiles([
+        XFile(file.path),
+      ], text: "Check out this beautiful Dua");
     } catch (e) {
       print("Error sharing: $e");
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     String audioPath = widget.dua.littleKidsAudio;
     bool isPlaying = widget.currentlyPlayingPath == audioPath;
-    return GetBuilder<UserController>(builder: (userController) {
-      var userModel = userController.userModel;
-      return  GetBuilder<ThemeController>(builder: (themeController){
-        return Material(
-          elevation: 8,
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            decoration: BoxDecoration(
+    return GetBuilder<UserController>(
+      builder: (userController) {
+        var userModel = userController.userModel;
+        return GetBuilder<ThemeController>(
+          builder: (themeController) {
+            return Material(
+              elevation: 8,
               borderRadius: BorderRadius.circular(20),
-              color: rpink,
-            ),
-            child: Column(
-              children: [
-                Row(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: rpink,
+                ),
+                child: Column(
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
+                    Row(
                       children: [
-                        InkWell(
-                          onTap: () => widget.onToggle(audioPath, widget.dua.id),
-                          child: Icon(
-                            isPlaying ? Icons.stop_circle : Icons.play_circle,
-                            color: (userModel != null && userModel.readDuas.contains(widget.dua.id))
-                                ? Colors.grey
-                                : Color(0xff2A158F),
-                          ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            InkWell(
+                              onTap: () =>
+                                  widget.onToggle(audioPath, widget.dua.id),
+                              child: Icon(
+                                isPlaying
+                                    ? Icons.stop_circle
+                                    : Icons.play_circle,
+                                color:
+                                    (userModel != null &&
+                                        userModel.readDuas.contains(
+                                          widget.dua.id,
+                                        ))
+                                    ? Colors.grey
+                                    : Color(0xff2A158F),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            InkWell(
+                              onTap: _openRecordingDialog,
+                              child: Icon(Icons.mic, color: Color(0xff2A158F)),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 20),
-                        InkWell(
-                          onTap: _openRecordingDialog,
-                          child: Icon(
-                            Icons.mic,
-                            color: Color(0xff2A158F),
+                        Expanded(
+                          child: Text(
+                            "${widget.dua.arabic}",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              color: rblack,
+                              fontSize: themeController.textSize,
+                              fontFamily: 'arabic',
+                            ),
                           ),
                         ),
                       ],
-                    ),
-                    Expanded(
-                      child: Text(
-                        "${widget.dua.arabic}",
-                        textAlign: TextAlign.end,
-                        style: TextStyle(color: rblack, fontSize: themeController.textSize,fontFamily: 'arabic'),
-                      ),
-                    ),
-                  ],
-                ).marginAll(15),
-                Divider(height: 2, color: rwhite),
-                if(themeController.showTransliteration)
-                Text(
-                  "${widget.dua.transliteration}",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(color: rblack, fontSize: themeController.textSize),
-                ).marginAll(15),
-                Divider(height: 2, color: rwhite),
-                if(themeController.showTranslation)
-                Row(
-                  children: [
-                    if(Get.find<UserController>().selectedLanguage=="English"||Get.find<UserController>().selectedLanguage=="Urdu")
-                    InkWell(
-                      onTap: () {
-                        print(Get.find<UserController>().selectedLanguage);
-                      },
-                      child: Icon(
-                        Icons.play_circle,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Text(
-                        "${widget.dua.getName(Get.find<UserController>().selectedLanguage)}",
+                    ).marginAll(15),
+                    Divider(height: 2, color: rwhite),
+                    if (themeController.showTransliteration)
+                      Text(
+                        "${widget.dua.transliteration}",
                         textAlign: TextAlign.start,
-                        style: TextStyle(color: rblack, fontSize: themeController.textSize),
-                      ),
-                    ),
+                        style: TextStyle(
+                          color: rblack,
+                          fontSize: themeController.textSize,
+                        ),
+                      ).marginAll(15),
+                    Divider(height: 2, color: rwhite),
+                    if (themeController.showTranslation)
+                      Row(
+                        children: [
+                          if (Get.find<UserController>().selectedLanguage ==
+                                  "English" ||
+                              Get.find<UserController>().selectedLanguage ==
+                                  "Urdu")
+                            InkWell(
+                              onTap: () {
+                                if(Get.find<UserController>().selectedLanguage == "Urdu"){
+                                  if (widget.dua.urduTranslation != null ||
+                                      widget.dua.urduTranslation != "") {
+                                    return widget.onToggle(
+                                      widget.dua.urduTranslation!,
+                                      widget.dua.id,
+                                    );
+                                  }
+                                }else{
+                                  if (widget.dua.englishTranslation != null ||
+                                      widget.dua.englishTranslation != "") {
+                                    return widget.onToggle(
+                                      widget.dua.englishTranslation!,
+                                      widget.dua.id,
+                                    );
+                                  }
+                                }
+
+                              },
+                              child: Icon(
+                                isPlaying
+                                    ? Icons.stop_circle
+                                    : Icons.play_circle,
+                                color: Get.find<UserController>().selectedLanguage=="Urdu"?widget.dua.urduTranslation!=null?Color(0xff2A158F):rpink:widget.dua.englishTranslation!=null?Color(0xff2A158F):rpink,
+                              ),
+                            ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Text(
+                              "${widget.dua.getName(Get.find<UserController>().selectedLanguage)}",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: rblack,
+                                fontSize: themeController.textSize,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ).marginAll(15),
+                    if (widget.dua.arabic.length < 200)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(),
+                          InkWell(
+                            onTap: () {
+                              showShareDialog();
+                            },
+                            child: Icon(Icons.share, color: Color(0xff2A158F)),
+                          ),
+                        ],
+                      ).marginSymmetric(horizontal: 20, vertical: 10),
                   ],
-                ).marginAll(15),
-                if(widget.dua.arabic.length<200)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(),
-                      InkWell(
-                          onTap: (){
-                            showShareDialog();
-                          },
-                          child: Icon(Icons.share,color: Color(0xff2A158F),)),
-                    ],
-                  ).marginSymmetric(horizontal: 20,vertical: 10)
-              ],
-            ),
-          ),
-        ).marginSymmetric(horizontal: 12, vertical: 8);
-      });
-    },);
+                ),
+              ),
+            ).marginSymmetric(horizontal: 12, vertical: 8);
+          },
+        );
+      },
+    );
   }
 }

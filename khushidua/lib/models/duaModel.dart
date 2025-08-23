@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class DuaModel{
   String id = '';
@@ -35,6 +34,8 @@ class DuaModel{
   String littleKidsAudio="";
   String olderKidsAudio="";
   String grownUpsAudio="";
+  String? englishTranslation="";
+  String? urduTranslation='';
 
 
   DuaModel({
@@ -71,8 +72,51 @@ class DuaModel{
     required this.olderKids,
     required this.grownUpsAudio,
     required this.littleKidsAudio,
-    required this.olderKidsAudio
+    required this.olderKidsAudio,
+    this.englishTranslation,
+    this.urduTranslation
   });
+
+  factory DuaModel.fromMap(Map<String, dynamic> map) {
+    return DuaModel(
+      id: map["id"],
+      createdAt: map["createdAt"].toDate(),
+      arabic: map["arabic"],
+      transliteration: map["transliteration"],
+      bengali: map["bengali"],
+      english: map["english"],
+      french: map["french"],
+      german: map["german"],
+      gujrati: map["gujrati"],
+      hindi: map["hindi"],
+      indonesian: map["indonesian"],
+      isEnabled: map["isEnabled"],
+      japanese: map["japanese"],
+      subCategoryIds: List<String>.from(map["subCategoryIds"] ?? []),
+      malay: map["malay"],
+      mandrain: map["mandrain"],
+      marathi: map["marathi"],
+      portugese: map["portugese"],
+      punjabi: map["punjabi"],
+      russian: map["russian"],
+      sindhi: map["sindhi"],
+      spanish: map["spanish"],
+      tamil: map["tamil"],
+      telgu: map["telgu"],
+      turkish: map["turkish"],
+      updatedAt: map["updatedAt"].toDate(),
+      urdu: map["urdu"],
+      order: map["order"],
+      littleKids: map["littleKids"],
+      olderKids: map["olderKids"],
+      grownUps:map["grownUps"],
+      littleKidsAudio: map["littleKidsAudio"],
+      olderKidsAudio: map["olderKidsAudio"],
+      grownUpsAudio: map["grownUpsAudio"],
+      englishTranslation: map["englishTranslation"],
+      urduTranslation: map["urduTranslation"],
+    );
+  }
 
   String getName(String languageCode) {
     switch (languageCode) {
@@ -123,45 +167,6 @@ class DuaModel{
     }
   }
 
-  factory DuaModel.fromMap(Map<String, dynamic> map) {
-    return DuaModel(
-        id: map["id"],
-        createdAt: map["createdAt"].toDate(),
-        arabic: map["arabic"],
-        transliteration: map["transliteration"],
-        bengali: map["bengali"],
-        english: map["english"],
-        french: map["french"],
-        german: map["german"],
-        gujrati: map["gujrati"],
-        hindi: map["hindi"],
-        indonesian: map["indonesian"],
-        isEnabled: map["isEnabled"],
-        japanese: map["japanese"],
-        subCategoryIds: List<String>.from(map["subCategoryIds"] ?? []),
-        malay: map["malay"],
-        mandrain: map["mandrain"],
-        marathi: map["marathi"],
-        portugese: map["portugese"],
-        punjabi: map["punjabi"],
-        russian: map["russian"],
-        sindhi: map["sindhi"],
-        spanish: map["spanish"],
-        tamil: map["tamil"],
-        telgu: map["telgu"],
-        turkish: map["turkish"],
-        updatedAt: map["updatedAt"].toDate(),
-        urdu: map["urdu"],
-        order: map["order"],
-        littleKids: map["littleKids"],
-        olderKids: map["olderKids"],
-        grownUps:map["grownUps"],
-      littleKidsAudio: map["littleKidsAudio"],
-      olderKidsAudio: map["olderKidsAudio"],
-      grownUpsAudio: map["grownUpsAudio"],
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       "id": id,
@@ -197,7 +202,9 @@ class DuaModel{
       "littleKids":littleKids,
       "grownUpsAudio":grownUpsAudio,
       "littleKidsAudio":littleKidsAudio,
-      "olderKidsAudio":olderKidsAudio
+      "olderKidsAudio":olderKidsAudio,
+      "englishTranslation":englishTranslation,
+      "urduTranslation":urduTranslation
     };
   }
 
